@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbarSize="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:backgroundTint="@color/background"
+        android:backgroundTintMode="screen"
+        tools:context=".DocterDetailView">
+
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="45dp"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Dr.Kasun Perera"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:translationZ="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:text="Bandaragama"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:translationZ="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shadow_box"
+            android:translationZ="5dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+        <View
+            android:id="@+id/view10"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/shadow_box"
+            android:translationZ="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/button15"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view8" />
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shadow_box"
+            android:translationZ="5dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <View
+            android:id="@+id/view8"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shadow_box"
+            android:translationZ="5dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/view9"
+            app:layout_constraintStart_toEndOf="@+id/view6"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <View
+            android:id="@+id/view9"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shadow_box"
+            android:translationZ="5dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="32dp"
+            android:translationZ="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView24"
+            app:srcCompat="@drawable/call" />
+
+        <ImageView
+            android:id="@+id/imageView13"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginEnd="2dp"
+            android:translationZ="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView25"
+            app:layout_constraintEnd_toStartOf="@+id/textView25"
+            app:layout_constraintTop_toTopOf="@+id/textView25"
+            app:srcCompat="@drawable/star" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="4.9"
+            android:translationZ="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView23"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView23" />
+
+        <Button
+            android:id="@+id/button15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/Patients_Button"
+            android:text="@string/text25"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view10" />
+
+        <Button
+            android:id="@+id/button16"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="@color/Doctors_Button"
+            android:text="@string/text34"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button15" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="0dp"
+            android:layout_height="272dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/shadow_box"
+            android:translationZ="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="#FFFFFF"
+            android:translationZ="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/docter_profile1" />
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Patients"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:translationZ="6dp"
+            app:layout_constraintEnd_toEndOf="@+id/view6"
+            app:layout_constraintStart_toStartOf="@+id/view6"
+            app:layout_constraintTop_toBottomOf="@+id/imageView14" />
+
+        <TextView
+            android:id="@+id/textView28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Experiance"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:translationZ="6dp"
+            app:layout_constraintEnd_toEndOf="@+id/view8"
+            app:layout_constraintStart_toStartOf="@+id/view8"
+            app:layout_constraintTop_toBottomOf="@+id/imageView15" />
+
+        <TextView
+            android:id="@+id/textView30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Rate"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:translationZ="6dp"
+            app:layout_constraintEnd_toEndOf="@+id/view9"
+            app:layout_constraintStart_toStartOf="@+id/view9"
+            app:layout_constraintTop_toBottomOf="@+id/imageView16" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="200+"
+            android:translationZ="6dp"
+            app:layout_constraintEnd_toEndOf="@+id/textView26"
+            app:layout_constraintStart_toStartOf="@+id/textView26"
+            app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+        <TextView
+            android:id="@+id/textView29"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 Years"
+            android:translationZ="6dp"
+            app:layout_constraintEnd_toEndOf="@+id/textView28"
+            app:layout_constraintStart_toStartOf="@+id/textView28"
+            app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+        <TextView
+            android:id="@+id/textView31"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4.9"
+            android:translationZ="6dp"
+            app:layout_constraintEnd_toEndOf="@+id/textView30"
+            app:layout_constraintStart_toStartOf="@+id/textView30"
+            app:layout_constraintTop_toBottomOf="@+id/textView30" />
+
+        <ImageView
+            android:id="@+id/imageView14"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="10dp"
+            android:translationZ="6dp"
+            app:layout_constraintEnd_toEndOf="@+id/view6"
+            app:layout_constraintStart_toStartOf="@+id/view6"
+            app:layout_constraintTop_toTopOf="@+id/view6"
+            app:srcCompat="@drawable/group" />
+
+        <ImageView
+            android:id="@+id/imageView15"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="10dp"
+            android:translationZ="6dp"
+            app:layout_constraintEnd_toEndOf="@+id/view8"
+            app:layout_constraintStart_toStartOf="@+id/view8"
+            app:layout_constraintTop_toTopOf="@+id/view8"
+            app:srcCompat="@drawable/time" />
+
+        <ImageView
+            android:id="@+id/imageView16"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="10dp"
+            android:translationZ="6dp"
+            app:layout_constraintEnd_toEndOf="@+id/view9"
+            app:layout_constraintStart_toStartOf="@+id/view9"
+            app:layout_constraintTop_toTopOf="@+id/view9"
+            app:srcCompat="@drawable/star2" />
+
+        <TextView
+            android:id="@+id/textView32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/text32"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:translationZ="6dp"
+            app:layout_constraintStart_toStartOf="@+id/view10"
+            app:layout_constraintTop_toTopOf="@+id/view10" />
+
+        <TextView
+            android:id="@+id/textView36"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/text33"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:translationZ="6dp"
+            app:layout_constraintStart_toStartOf="@+id/textView33"
+            app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+        <TextView
+            android:id="@+id/textView33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="7.30 PM"
+            android:textSize="16sp"
+            android:translationZ="6dp"
+            app:layout_constraintStart_toStartOf="@+id/textView32"
+            app:layout_constraintTop_toBottomOf="@+id/textView32" />
+
+        <TextView
+            android:id="@+id/textView35"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="10.30 PM"
+            android:textSize="16sp"
+            android:translationZ="6dp"
+            app:layout_constraintStart_toEndOf="@+id/textView34"
+            app:layout_constraintTop_toBottomOf="@+id/textView32" />
+
+        <TextView
+            android:id="@+id/textView34"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="-"
+            android:textSize="16sp"
+            android:translationZ="6dp"
+            app:layout_constraintStart_toEndOf="@+id/textView33"
+            app:layout_constraintTop_toBottomOf="@+id/textView32" />
+
+        <TextView
+            android:id="@+id/textView37"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:singleLine="false"
+            android:text="A doctor is a medical professional who diagnoses illnesses, prescribes treatments, and provides care to patients, aiming to maintain or restore their health through their extensive knowledge of the human body and disease processes"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textStyle="italic"
+            android:translationZ="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/view10"
+            app:layout_constraintEnd_toEndOf="@+id/view10"
+            app:layout_constraintStart_toStartOf="@+id/textView36"
+            app:layout_constraintTop_toBottomOf="@+id/textView36" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
+

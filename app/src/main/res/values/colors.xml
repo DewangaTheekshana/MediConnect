@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="Patients_Button">#68B5E6</color>
+    <color name="Doctors_Button">#3CA0DF</color>
+    <color name="background">#A0C7E0</color>
+    <color name="background2">#6ADBF9</color>
+</resources>
