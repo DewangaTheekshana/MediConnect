@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment {
         userList.add(new User("3", "Dr. Nimesh Perera", "Gampaha"));
         userList.add(new User("4", "Dr. Nimal Perera", "Kurunagala"));
         userList.add(new User("5", "Dr. Gayan Perera", "Colombo"));
+        userList.add(new User("6", "Dr. Shehan Perera", "Colombo"));
 
         RecyclerView recyclerView1 = root.findViewById(R.id.recyclerView1);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext());
