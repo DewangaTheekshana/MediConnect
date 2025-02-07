@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +54,15 @@ public class HomeFragment extends Fragment {
 
         Adapter1 userAdapter = new Adapter1(userList);
         recyclerView1.setAdapter(userAdapter);
+
+        ImageView profileimage = root.findViewById(R.id.profileimage);
+        profileimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(root.getContext(), lk.oodp2.mediconnect01.PatientsProfile.class);
+                startActivity(intent);
+            }
+        });
 
 
         return root;
