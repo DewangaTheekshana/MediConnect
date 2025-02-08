@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import lk.oodp2.mediconnect01.ui.dashboard.DashboardFragment;
+import lk.oodp2.mediconnect01.ui.Appointments.AppointmentsFragment;
 import lk.oodp2.mediconnect01.ui.home.HomeFragment;
 import lk.oodp2.mediconnect01.ui.notifications.NotificationsFragment;
 import lk.oodp2.mediconnect01.ui.search.AdvanceSearchFragment;
@@ -55,8 +55,8 @@ public class PatientsHome extends AppCompatActivity {
                 selectedFragment = new HomeFragment();
             } else if (item.getItemId() == R.id.navigation_search) {
                 selectedFragment = new AdvanceSearchFragment();
-            } else if (item.getItemId() == R.id.navigation_notifications) {
-                selectedFragment = new NotificationsFragment();
+            } else if (item.getItemId() == R.id.navigation_appointments) {
+                selectedFragment = new AppointmentsFragment();
             }
 
             if (selectedFragment != null) {
