@@ -40,12 +40,12 @@ public class HomeFragment extends Fragment {
 
 
         ArrayList<User> userList = new ArrayList<>();
-        userList.add(new User("1", "Dr. Shehan Pereraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Colombo"));
-        userList.add(new User("2", "Dr. Kasun Perera", "Kandy"));
-        userList.add(new User("3", "Dr. Nimesh Perera", "Gampaha"));
-        userList.add(new User("4", "Dr. Nimal Perera", "Kurunagala"));
-        userList.add(new User("5", "Dr. Gayan Perera", "Colombo"));
-        userList.add(new User("6", "Dr. Shehan Perera", "Colombo"));
+        userList.add(new User("1", "Dr. Shehan Pereraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Colombo", "Rs. 5000"));
+        userList.add(new User("2", "Dr. Kasun Perera", "Kandy", "Rs. 4000"));
+        userList.add(new User("3", "Dr. Nimesh Perera", "Gampaha", "Rs. 3000"));
+        userList.add(new User("4", "Dr. Nimal Perera", "Kurunagala", "Rs. 2000"));
+        userList.add(new User("5", "Dr. Gayan Perera", "Colombo", "Rs. 1000"));
+        userList.add(new User("6", "Dr. Shehan Perera", "Colombo", "Rs. 5000"));
 
         RecyclerView recyclerView1 = root.findViewById(R.id.recyclerView1);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(root.getContext());
@@ -130,6 +130,7 @@ class Adapter1 extends RecyclerView.Adapter<Adapter1.ViewHolder>{
                         Intent intent = new Intent(itemView.getContext(), DocterDetailView.class);
                         intent.putExtra("docterName", user.getDocterName());
                         intent.putExtra("docterCity", user.getDocterCity());
+                        intent.putExtra("Price", user.getPrice());
 
                         itemView.getContext().startActivity(intent);
                     }

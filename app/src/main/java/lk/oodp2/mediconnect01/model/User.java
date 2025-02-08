@@ -5,11 +5,13 @@ public class User {
     private String docterId;
     private String docterName;
     private String docterCity;
+    private String Price;
 
-    public User(String docterId, String docterName, String docterCity) {
+    public User(String docterId, String docterName, String docterCity, String price) {
         this.docterId = docterId;
         this.docterName = docterName;
         this.docterCity = docterCity;
+        Price = price;
     }
 
     public String getDocterId() {
@@ -34,5 +36,13 @@ public class User {
 
     public void setDocterCity(String docterCity) {
         this.docterCity = docterCity;
+    }
+
+    public String getPrice() {
+        return Price;
+    }
+
+    public void setPrice(String price) {
+        Price = price;
     }
 }

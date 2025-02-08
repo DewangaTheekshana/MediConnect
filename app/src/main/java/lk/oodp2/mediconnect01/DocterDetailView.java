@@ -2,6 +2,7 @@ package lk.oodp2.mediconnect01;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ public class DocterDetailView extends AppCompatActivity {
         // Retrieve intent data
         String docterName = getIntent().getStringExtra("docterName");
         String docterCity = getIntent().getStringExtra("docterCity");
+        String Price = getIntent().getStringExtra("Price");
 
         // Find TextViews
         TextView textViewName = findViewById(R.id.textView23);
@@ -38,6 +40,9 @@ public class DocterDetailView extends AppCompatActivity {
                 Toast.makeText(DocterDetailView.this, "Calling", Toast.LENGTH_SHORT).show();
             }
         });
+
+        Button button15 = findViewById(R.id.button15);
+        button15.setText("Book Appointment" + " : " + Price);
 
     }
 }
