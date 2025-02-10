@@ -32,13 +32,16 @@
     <string name="text29">Advance</string>
     <string name="text28">Details</string>
     <string name="text30">Support</string>
-    <string name="text31">Appointments</string>
+    <string name="text31">My Appointments</string>
     <string name="text32">Availability Time Today</string>
     <string name="text33">About</string>
     <string name="text34">Find Location</string>
     <string name="text35">Location</string>
     <string name="text36">User Profile</string>
     <string name="text37">Update Profile</string>
+    <string name="text38">Dr.Dewanga Theekshana</string>
+    <string name="text39">Time : 09.30PM</string>
+    <string name="text40">Date : 2025/03/20</string>
     <string name="title_activity_patients_home_page">PatientsHomePage</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
