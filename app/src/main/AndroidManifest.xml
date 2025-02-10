@@ -14,25 +14,22 @@
         tools:targetApi="31">
         <activity
             android:name=".DoctorHomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PatientsProfile"
-            android:exported="false" />
-        <activity
-            android:name=".ProfileActivity2"
-            android:exported="false" />
-        <activity
-            android:name=".DocterDetailView"
-            android:exported="true" />
-        <activity
-            android:name=".PatientsHome"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".PatientsProfile"
+            android:exported="false" />
+        <activity
+            android:name=".DocterDetailView"
+            android:exported="true" />
+        <activity
+            android:name=".PatientsHome"
+            android:exported="true"/>
         <activity
             android:name=".BottomNav"
             android:exported="false"
