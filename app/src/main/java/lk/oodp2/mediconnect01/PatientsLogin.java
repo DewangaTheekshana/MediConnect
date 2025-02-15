@@ -79,7 +79,7 @@ public class PatientsLogin extends AppCompatActivity {
 
                             RequestBody requestBody = RequestBody.create(gson.toJson(user), MediaType.get("application/json"));
                             Request request = new Request.Builder()
-                                    .url("http://192.168.37.146:8080/MediConnect/PatientLogin")
+                                    .url("http://192.168.74.146:8080/MediConnect/PatientLogin")
                                     .post(requestBody)
                                     .build();
 

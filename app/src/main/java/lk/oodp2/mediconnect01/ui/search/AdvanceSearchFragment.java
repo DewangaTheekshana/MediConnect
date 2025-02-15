@@ -56,12 +56,12 @@ public class AdvanceSearchFragment extends Fragment {
         spinner2.setAdapter(arrayadapter2);
 
         ArrayList<User> userList2 = new ArrayList<>();
-        userList2.add(new User("1", "Dr. Shehan Pereraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Colombo", "Rs. 5000"));
-        userList2.add(new User("2", "Dr. Kasun Perera", "Kandy", "Rs. 4000"));
-        userList2.add(new User("3", "Dr. Nimesh Perera", "Gampaha", "Rs. 3000"));
-        userList2.add(new User("4", "Dr. Nimal Perera", "Kurunagala", "Rs. 2000"));
-        userList2.add(new User("5", "Dr. Gayan Perera", "Colombo", "Rs. 1000"));
-        userList2.add(new User("6", "Dr. Shehan Perera", "Colombo", "Rs. 5000"));
+        userList2.add(new User("1", "Dr. Shehan Pereraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Colombo", "Rs. 5000", "5", "About", "10", "Colombo", "0771234567"));
+        userList2.add(new User("2", "Dr. Kasun Perera", "Kandy", "Rs. 4000", "5", "About", "10", "Kandy", "0771234567"));
+        userList2.add(new User("3", "Dr. Nimesh Perera", "Gampaha", "Rs. 3000", "5", "About", "10", "Gampaha", "0771234567"));
+        userList2.add(new User("4", "Dr. Nimal Perera", "Kurunagala", "Rs. 2000", "5", "About", "10", "Kurunagala", "0771234567"));
+        userList2.add(new User("5", "Dr. Gayan Perera", "Colombo", "Rs. 1000", "5", "About", "10", "Colombo", "0771234567"));
+        userList2.add(new User("6", "Dr. Shehan Perera", "Colombo", "Rs. 5000", "5", "About", "10", "Colombo", "0771234567"));
 
         RecyclerView recyclerView1 = view.findViewById(R.id.recyclerView3);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());

@@ -14,6 +14,61 @@ public class Clinics_DTO implements Serializable {
 
     private String clinic_city;
 
+    private Object Doctor_Availability_id;
+    private Object Doctor_Availability_status;
+
+    private String first_name;
+
+    private String last_name;
+
+    private String email;
+
+    private String password;
+
+    private String mobile;
+
+//    private String doctor_identity_front;
+//
+//    private String doctor_identity_back;
+
+    private String appointment_price;
+
+    private String about;
+
+//    private String profile_pic;
+
+    private String experience;
+
+    private String rate;
+
+    
+
+    public Clinics_DTO(String email, int id, Doctors_DTO docters, String clinic_name, String clinic_address, String clinic_city, Object doctor_Availability_id, Object doctor_Availability_status, String first_name, String last_name, String password, String mobile, String appointment_price, String about, String experience, String rate) {
+        this.email = email;
+        this.id = id;
+        this.docters = docters;
+        this.clinic_name = clinic_name;
+        this.clinic_address = clinic_address;
+        this.clinic_city = clinic_city;
+        Doctor_Availability_id = doctor_Availability_id;
+        Doctor_Availability_status = doctor_Availability_status;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.password = password;
+        this.mobile = mobile;
+        this.appointment_price = appointment_price;
+        this.about = about;
+        this.experience = experience;
+        this.rate = rate;
+    }
+
+    public String getAppointment_price() {
+        return appointment_price;
+    }
+
+    public void setAppointment_price(String appointment_price) {
+        this.appointment_price = appointment_price;
+    }
 
     public int getId() {
         return id;
@@ -27,8 +82,8 @@ public class Clinics_DTO implements Serializable {
         return docters;
     }
 
-    public void setDocters(Doctors_DTO docters_dto) {
-        this.docters = docters_dto;
+    public void setDocters(Doctors_DTO docters) {
+        this.docters = docters;
     }
 
     public String getClinic_name() {
@@ -55,7 +110,85 @@ public class Clinics_DTO implements Serializable {
         this.clinic_city = clinic_city;
     }
 
+    public Object getDoctor_Availability_id() {
+        return Doctor_Availability_id;
+    }
 
+    public void setDoctor_Availability_id(Object doctor_Availability_id) {
+        Doctor_Availability_id = doctor_Availability_id;
+    }
+
+    public Object getDoctor_Availability_status() {
+        return Doctor_Availability_status;
+    }
+
+    public void setDoctor_Availability_status(Object doctor_Availability_status) {
+        Doctor_Availability_status = doctor_Availability_status;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
+    public String getRate() {
+        return rate;
+    }
+
+    public void setRate(String rate) {
+        this.rate = rate;
+    }
 }
 
 
