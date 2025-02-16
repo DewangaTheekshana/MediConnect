@@ -36,7 +36,7 @@ public class DocterDetailView extends AppCompatActivity {
 
         // Set data to TextViews
         if (docterName != null) {
-            textViewName.setText(docterName);
+            textViewName.setText("Dr."+docterName);
         }
         if (docterCity != null) {
             textViewCity.setText(docterCity);

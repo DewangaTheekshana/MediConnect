@@ -141,7 +141,7 @@
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/editTextSearch1"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -164,9 +164,9 @@
         android:layout_height="25dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/seach12"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextText"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextSearch1"
         app:layout_constraintEnd_toStartOf="@+id/imageView12"
-        app:layout_constraintTop_toTopOf="@+id/editTextText" />
+        app:layout_constraintTop_toTopOf="@+id/editTextSearch1" />
 
     <ImageView
         android:id="@+id/imageView12"
