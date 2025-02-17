@@ -52,7 +52,7 @@
         android:background="@drawable/shadow_box"
         android:drawableEnd="@drawable/arrow_down2"
         android:gravity="center_vertical"
-        android:text="Select currunt city"
+        android:text="All City"
         android:padding="12dp"
         app:layout_constraintEnd_toStartOf="@+id/spinner2"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,15 +1,21 @@
 package lk.oodp2.mediconnect01;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class DocterDetailView extends AppCompatActivity {
+
+    private static final int CALL_PERMISSION_REQUEST_CODE = 1;  // Define a request code for permission
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +42,7 @@ public class DocterDetailView extends AppCompatActivity {
 
         // Set data to TextViews
         if (docterName != null) {
-            textViewName.setText("Dr."+docterName);
+            textViewName.setText("Dr." + docterName);
         }
         if (docterCity != null) {
             textViewCity.setText(docterCity);
@@ -58,12 +64,46 @@ public class DocterDetailView extends AppCompatActivity {
         imageView11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DocterDetailView.this, "Calling"+" "+mobile, Toast.LENGTH_SHORT).show();
+                // Check if the CALL_PHONE permission is granted
+                if (ContextCompat.checkSelfPermission(DocterDetailView.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // Request permission if not granted
+                    ActivityCompat.requestPermissions(DocterDetailView.this, new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION_REQUEST_CODE);
+                } else {
+                    // Permission is granted, initiate the call
+                    makePhoneCall(mobile);
+                }
             }
         });
 
         Button button15 = findViewById(R.id.button15);
         button15.setText("Book Appointment" + " : " + Price);
+    }
 
+    // Method to make a phone call
+    private void makePhoneCall(String mobile) {
+        if (mobile != null && !mobile.isEmpty()) {
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(android.net.Uri.parse("tel:" + mobile));
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Invalid mobile number", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Handle the result of the permission request
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == CALL_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, initiate the call
+                String mobile = getIntent().getStringExtra("mobile");
+                makePhoneCall(mobile);
+            } else {
+                // Permission denied
+                Toast.makeText(this, "Permission denied to make the call", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

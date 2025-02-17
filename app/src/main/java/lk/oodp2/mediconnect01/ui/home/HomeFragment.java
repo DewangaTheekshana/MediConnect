@@ -46,40 +46,6 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        RecyclerView recyclerView1 = root.findViewById(R.id.recyclerView1);
-        recyclerView1.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        userAdapter = new Adapter1(docterList);
-        recyclerView1.setAdapter(userAdapter);
-
-        new Thread(() -> {
-            Gson gson = new Gson();
-            OkHttpClient okHttpClient = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(BuildConfig.URL+"/PatientHomeLoadDocters")
-                    .build();
-            try {
-                Response response = okHttpClient.newCall(request).execute();
-                String responseText = response.body().string();
-                Log.i("MediConnectLog", responseText);
-                Type responseType = new TypeToken<ResponseList_DTO<Clinics_DTO>>() {}.getType();
-                ResponseList_DTO<Clinics_DTO> response_dto = gson.fromJson(responseText, responseType);
-                if (response_dto.getSuccess()) {
-                    List<Clinics_DTO> doctors = response_dto.getContent();
-                    getActivity().runOnUiThread(() -> {
-                        docterList.clear();
-                        for (Clinics_DTO doctor : doctors) {
-                            docterList.add(new User(String.valueOf(doctor.getDocters()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile()));
-                        }
-                        userAdapter.notifyDataSetChanged();
-                        Log.i("MediConnectLogggggggggggggg", " "+docterList);
-                    });
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-
         ImageView profileimage = root.findViewById(R.id.profileimage);
         profileimage.setOnClickListener(v -> {
             Intent intent = new Intent(root.getContext(), lk.oodp2.mediconnect01.PatientsProfile.class);
@@ -115,6 +81,48 @@ public class HomeFragment extends Fragment {
 
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.i("MediConnectLogggggggggggggg", "onResume");
+
+        RecyclerView recyclerView1 = getActivity().findViewById(R.id.recyclerView1);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(getContext()));
+        userAdapter = new Adapter1(docterList);
+        recyclerView1.setAdapter(userAdapter);
+
+        new Thread(() -> {
+            Gson gson = new Gson();
+            OkHttpClient okHttpClient = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(BuildConfig.URL+"/PatientHomeLoadDocters")
+                    .build();
+            try {
+                Response response = okHttpClient.newCall(request).execute();
+                String responseText = response.body().string();
+                Log.i("MediConnectLogggggggggggggg", responseText);
+                Type responseType = new TypeToken<ResponseList_DTO<Clinics_DTO>>() {}.getType();
+                ResponseList_DTO<Clinics_DTO> response_dto = gson.fromJson(responseText, responseType);
+                if (response_dto.getSuccess()) {
+                    List<Clinics_DTO> doctors = response_dto.getContent();
+                    getActivity().runOnUiThread(() -> {
+                        docterList.clear();
+                        for (Clinics_DTO doctor : doctors) {
+                            docterList.add(new User(String.valueOf(doctor.getDocters()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile()));
+                        }
+                        userAdapter.notifyDataSetChanged();
+                        Log.i("MediConnectLogggggggggggggg", " "+docterList);
+                    });
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
     }
 
     private void SearchDoctors(String query) {
