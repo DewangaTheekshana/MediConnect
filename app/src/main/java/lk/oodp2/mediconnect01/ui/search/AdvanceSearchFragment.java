@@ -1,12 +1,17 @@
 package lk.oodp2.mediconnect01.ui.search;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.widget.AdapterView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,12 +20,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
@@ -32,15 +38,28 @@ import lk.oodp2.mediconnect01.BuildConfig;
 import lk.oodp2.mediconnect01.DocterDetailView;
 import lk.oodp2.mediconnect01.R;
 import lk.oodp2.mediconnect01.dto.Clinics_DTO;
+import lk.oodp2.mediconnect01.dto.DoctorCity_DTO;
 import lk.oodp2.mediconnect01.dto.ResponseList_DTO;
+import lk.oodp2.mediconnect01.model.City;
 import lk.oodp2.mediconnect01.model.User;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class AdvanceSearchFragment extends Fragment {
 
     private ArrayList<User> docterList = new ArrayList<>();
+
+    TextView textview;
+    TextView textview2;
+
+    EditText editTextSearch;
+    private ArrayList<City> arrayList = new ArrayList<>();
+    Dialog dialog;
+    static String NameSelect = "";
+    static String CitySelect = "";
 
     private Adapter2 userAdapter;
 
@@ -54,25 +73,113 @@ public class AdvanceSearchFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_advance_search, container, false);
 
-        Spinner spinner = view.findViewById(R.id.spinner);
-        Spinner spinner2 = view.findViewById(R.id.spinner2);
 
-        String city[] = new String[]{"Select City", "Bandaragama", "Horana", "Colombo", "Gampaha", "Kaluthara"};
+
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Gson gson = new Gson();
+                OkHttpClient okHttpClient = new OkHttpClient();
+
+                Request request = new Request.Builder()
+                        .url(BuildConfig.URL+"/CityLoad")
+                        .build();
+
+                try {
+                    Response response = okHttpClient.newCall(request).execute();
+                    String responseText = response.body().string();
+                    Log.i("MediConnectLogggggggggggggg", responseText);
+                    Type responseType2 = new TypeToken<ResponseList_DTO<DoctorCity_DTO>>() {}.getType();
+                    ResponseList_DTO<DoctorCity_DTO> response_dto = gson.fromJson(responseText, responseType2);
+
+                    if (response_dto.getSuccess()) {
+                        List<DoctorCity_DTO> city = response_dto.getContent();
+                        getActivity().runOnUiThread(() -> {
+                            arrayList.clear();
+                            arrayList.add(new City(0,"All City"));
+                            for (DoctorCity_DTO citys : city) {
+                                arrayList.add(new City(citys.getId(), citys.getCity()));
+                                Log.i("MediConnectLogggggggggggggg", " "+citys.getCity());
+                                Log.i("MediConnectLogggggggggggggg", " "+citys.getId());
+                            }
+                            Log.i("MediConnectLogggggggggggggg", " "+arrayList);
+                        });
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
+        editTextSearch= view.findViewById(R.id.editTextText2);
+        textview=view.findViewById(R.id.testView);
+        textview2=view.findViewById(R.id.textView49);
+
+        textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new Dialog(view.getContext());
+
+                dialog.setContentView(R.layout.dialog_searchable_spinner);
+
+                dialog.getWindow().setLayout(650,800);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                dialog.show();
+
+                EditText editText=dialog.findViewById(R.id.edit_text);
+                ListView listView=dialog.findViewById(R.id.list_view);
+
+                ArrayAdapter<City> adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1,arrayList);
+
+                listView.setAdapter(adapter);
+                editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        adapter.getFilter().filter(s);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // when item selected from list
+                        // set selected item on textView
+                        City city = arrayList.get(position);
+                        textview.setText(city.toString());
+                        textview2.setText(String.valueOf(city.getId()));
+                        searchDoctors();
+                        // Dismiss dialog
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+
+
+        Spinner spinner2 = view.findViewById(R.id.spinner2);;
         String rate[] = new String[]{"Select Rate", "1 ⭐", "2 ⭐ ⭐", "3 ⭐ ⭐ ⭐", "4 ⭐ ⭐ ⭐ ⭐", "5 ⭐ ⭐ ⭐ ⭐ ⭐"};
 
-        ArrayAdapter<String> arrayadapter = new ArrayAdapter<>(
-            AdvanceSearchFragment.this.getActivity(),
-            android.R.layout.simple_spinner_item,
-            city
-        );
 
         ArrayAdapter<String> arrayadapter2 = new ArrayAdapter<>(
                 AdvanceSearchFragment.this.getActivity(),
                 android.R.layout.simple_spinner_item,
                 rate
         );
-
-        spinner.setAdapter(arrayadapter);
         spinner2.setAdapter(arrayadapter2);
 
         ArrayList<User> userList2 = new ArrayList<>();
@@ -108,6 +215,7 @@ public class AdvanceSearchFragment extends Fragment {
                     Log.i("MediConnectLog", responseText);
                     Type responseType = new TypeToken<ResponseList_DTO<Clinics_DTO>>() {}.getType();
                     ResponseList_DTO<Clinics_DTO> response_dto = gson.fromJson(responseText, responseType);
+
                     if (response_dto.getSuccess()) {
                         List<Clinics_DTO> doctors = response_dto.getContent();
                         getActivity().runOnUiThread(() -> {
@@ -118,6 +226,7 @@ public class AdvanceSearchFragment extends Fragment {
                             userAdapter.notifyDataSetChanged();
                         });
                     }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -125,14 +234,16 @@ public class AdvanceSearchFragment extends Fragment {
             }
         }).start();
 
-        EditText editTextSearch2 = view.findViewById(R.id.editTextText2);
-        editTextSearch2.addTextChangedListener(new TextWatcher() {
+
+        editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                SearchDoctors(s.toString());
+
+                searchDoctors();
+
             }
 
             @Override
@@ -142,15 +253,47 @@ public class AdvanceSearchFragment extends Fragment {
         return view;
     }
 
-    private void SearchDoctors(String query) {
-        ArrayList<User> searchList = new ArrayList<>();
-        for (User doctor : docterList) {
-            if (doctor.getDocterCity().toLowerCase().contains(query.toLowerCase())) {
-                searchList.add(doctor);
+    private void searchDoctors (){
+
+        new Thread(() -> {
+            Gson gson = new Gson();
+            OkHttpClient okHttpClient = new OkHttpClient();
+
+            JsonObject search = new JsonObject();
+            search.addProperty("city", textview.getText().toString());
+            search.addProperty("name", editTextSearch.getText().toString());
+            search.addProperty("cityId",textview2.getText().toString());
+
+            RequestBody requestBody = RequestBody.create(gson.toJson(search), MediaType.get("application/json"));
+            Request request = new Request.Builder()
+                    .url(BuildConfig.URL+"/PatientAdvanceSearch")
+                    .post(requestBody)
+                    .build();
+            try {
+                Response response = okHttpClient.newCall(request).execute();
+                String responseText = response.body().string();
+                Log.i("MediConnectLog", responseText);
+//                Type responseType = new TypeToken<ResponseList_DTO<Clinics_DTO>>() {}.getType();
+//                ResponseList_DTO<Clinics_DTO> response_dto = gson.fromJson(responseText, responseType);
+//                if (response_dto.getSuccess()) {
+//                    List<Clinics_DTO> doctors = response_dto.getContent();
+//                    getActivity().runOnUiThread(() -> {
+//                        docterList.clear();
+//                        for (Clinics_DTO doctor : doctors) {
+//                            docterList.add(new User(String.valueOf(doctor.getDocters()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile()));
+//                        }
+//                        userAdapter.notifyDataSetChanged();
+//                        Log.i("MediConnectLogggggggggggggg", " "+docterList);
+//                    });
+//
+//                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }
-        userAdapter.updateList(searchList);
+        }).start();
+
     }
+
 }
 
 

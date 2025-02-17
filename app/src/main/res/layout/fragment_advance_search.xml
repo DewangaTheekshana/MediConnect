@@ -7,6 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.search.AdvanceSearchFragment">
 
+    <TextView
+        android:id="@+id/textView49"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <View
         android:id="@+id/view7"
         android:layout_width="0dp"
@@ -25,7 +33,7 @@
         android:layout_height="0dp"
         android:background="@drawable/shadow_box"
         android:ems="10"
-        android:hint="Enter Current City"
+        android:hint="Enter Doctor Name (eg: Sahan)"
         android:inputType="text"
         android:paddingStart="15dp"
         android:paddingEnd="10dp"
@@ -33,6 +41,22 @@
         app:layout_constraintEnd_toStartOf="@+id/imageView19"
         app:layout_constraintStart_toStartOf="@+id/view7"
         app:layout_constraintTop_toTopOf="@+id/view7" />
+
+    <TextView
+        android:id="@+id/testView"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/shadow_box"
+        android:drawableEnd="@drawable/arrow_down2"
+        android:gravity="center_vertical"
+        android:text="Select currunt city"
+        android:padding="12dp"
+        app:layout_constraintEnd_toStartOf="@+id/spinner2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
 
     <ImageView
         android:id="@+id/imageView19"
@@ -45,39 +69,26 @@
         app:layout_constraintTop_toTopOf="@+id/view7" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinner2"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/shadow_box"
-        android:paddingStart="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/spinner2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view7" />
-
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:background="@drawable/shadow_box"
         android:paddingStart="10dp"
         app:layout_constraintEnd_toEndOf="@+id/view7"
-        app:layout_constraintStart_toEndOf="@+id/spinner"
+        app:layout_constraintStart_toEndOf="@+id/testView"
         app:layout_constraintTop_toBottomOf="@+id/view7" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/testView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

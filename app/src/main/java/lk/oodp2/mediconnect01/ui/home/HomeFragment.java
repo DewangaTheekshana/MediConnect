@@ -71,7 +71,9 @@ public class HomeFragment extends Fragment {
                             docterList.add(new User(String.valueOf(doctor.getDocters()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile()));
                         }
                         userAdapter.notifyDataSetChanged();
+                        Log.i("MediConnectLogggggggggggggg", " "+docterList);
                     });
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();
