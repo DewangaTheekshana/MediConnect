@@ -8,10 +8,14 @@
     <View
         android:id="@+id/view11"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/shadow_box"
+        android:backgroundTint="@color/background2"
+        android:backgroundTintMode="multiply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,17 +26,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
         android:text="@string/text39"
-        app:layout_constraintBottom_toBottomOf="@+id/view12"
-        app:layout_constraintStart_toEndOf="@+id/imageView20" />
+        app:layout_constraintStart_toEndOf="@+id/imageView20"
+        app:layout_constraintTop_toBottomOf="@+id/textView41" />
 
     <TextView
         android:id="@+id/textView41"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:maxWidth="200dp"
         android:singleLine="true"
         android:text="@string/text38"
@@ -45,10 +47,9 @@
         android:id="@+id/view12"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/shadow_box"
-        app:layout_constraintBottom_toBottomOf="@+id/view11"
         app:layout_constraintStart_toStartOf="@+id/view11"
         app:layout_constraintTop_toTopOf="@+id/view11" />
 
@@ -66,11 +67,12 @@
         android:id="@+id/textView43"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/text40"
-        app:layout_constraintBottom_toBottomOf="@+id/textView42"
-        app:layout_constraintStart_toEndOf="@+id/textView42"
-        app:layout_constraintTop_toTopOf="@+id/textView42" />
+        app:layout_constraintBottom_toBottomOf="@+id/view11"
+        app:layout_constraintStart_toStartOf="@+id/textView42"
+        app:layout_constraintTop_toBottomOf="@+id/textView42" />
 
     <Button
         android:id="@+id/button13"
@@ -78,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/Doctors_Button"
-        android:text="Find"
+        android:text="Location"
         app:layout_constraintBottom_toBottomOf="@+id/textView43"
         app:layout_constraintEnd_toEndOf="@+id/view11"
         app:layout_constraintTop_toTopOf="@+id/textView41" />

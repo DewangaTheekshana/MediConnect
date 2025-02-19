@@ -3,13 +3,16 @@ package lk.oodp2.mediconnect01;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -31,6 +34,9 @@ public class DocterDetailView extends AppCompatActivity {
         String experiance = getIntent().getStringExtra("experiance");
         String location = getIntent().getStringExtra("location");
         String mobile = getIntent().getStringExtra("mobile");
+        String status = getIntent().getStringExtra("status");
+
+        Log.i("MediConnectLogggggggggggggg", "status"+status);
 
         // Find TextViews
         TextView textViewName = findViewById(R.id.textView23);
@@ -39,7 +45,7 @@ public class DocterDetailView extends AppCompatActivity {
         TextView textViewAbout = findViewById(R.id.textView37);
         TextView textViewExperiance = findViewById(R.id.textView29);
         TextView textViewLocation = findViewById(R.id.textView40);
-
+        CardView cardView = findViewById(R.id.statuscard1);
         // Set data to TextViews
         if (docterName != null) {
             textViewName.setText("Dr." + docterName);
@@ -58,6 +64,12 @@ public class DocterDetailView extends AppCompatActivity {
         }
         if (location != null) {
             textViewLocation.setText(location);
+        }
+
+        if (status.equals("3.0")){
+            cardView.setCardBackgroundColor(Color.parseColor("#79BF2B"));
+        }else{
+            cardView.setVisibility(View.GONE);
         }
 
         ImageView imageView11 = findViewById(R.id.imageView11);

@@ -284,19 +284,6 @@
             app:srcCompat="@drawable/star2" />
 
         <TextView
-            android:id="@+id/textView32"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/text32"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:translationZ="6dp"
-            app:layout_constraintStart_toStartOf="@+id/view10"
-            app:layout_constraintTop_toTopOf="@+id/view10" />
-
-        <TextView
             android:id="@+id/textView36"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -305,43 +292,21 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:translationZ="6dp"
-            app:layout_constraintStart_toStartOf="@+id/textView33"
+            app:layout_constraintStart_toStartOf="@+id/ratingBar2"
             app:layout_constraintTop_toBottomOf="@+id/ratingBar2" />
 
         <TextView
             android:id="@+id/textView38"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="45dp"
             android:text="@string/text35"
             android:textSize="18sp"
             android:textStyle="bold"
             android:translationZ="6dp"
-            app:layout_constraintStart_toStartOf="@+id/textView33"
-            app:layout_constraintTop_toBottomOf="@+id/textView33" />
-
-        <TextView
-            android:id="@+id/textView33"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="7.30 PM"
-            android:textSize="16sp"
-            android:translationZ="6dp"
-            app:layout_constraintStart_toStartOf="@+id/textView32"
-            app:layout_constraintTop_toBottomOf="@+id/textView32" />
-
-        <TextView
-            android:id="@+id/textView35"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="10.30 PM"
-            android:textSize="16sp"
-            android:translationZ="6dp"
-            app:layout_constraintStart_toEndOf="@+id/textView34"
-            app:layout_constraintTop_toBottomOf="@+id/textView32" />
+            app:layout_constraintStart_toStartOf="@+id/view10"
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
 
         <TextView
             android:id="@+id/textView40"
@@ -355,21 +320,9 @@
             app:layout_constraintTop_toBottomOf="@+id/textView38" />
 
         <TextView
-            android:id="@+id/textView34"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="-"
-            android:textSize="16sp"
-            android:translationZ="6dp"
-            app:layout_constraintStart_toEndOf="@+id/textView33"
-            app:layout_constraintTop_toBottomOf="@+id/textView32" />
-
-        <TextView
             android:id="@+id/textView37"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:singleLine="false"
@@ -379,7 +332,7 @@
             android:textStyle="italic"
             android:translationZ="6dp"
             app:layout_constraintBottom_toBottomOf="@+id/view10"
-            app:layout_constraintEnd_toEndOf="@+id/view10"
+            app:layout_constraintEnd_toEndOf="@+id/view9"
             app:layout_constraintStart_toStartOf="@+id/textView36"
             app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
@@ -402,6 +355,16 @@
             android:translationZ="6dp"
             app:layout_constraintStart_toStartOf="@+id/textView40"
             app:layout_constraintTop_toBottomOf="@+id/textView40" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/statuscard1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:translationZ="10dp"
+            app:cardBackgroundColor="@android:color/holo_green_light"
+            app:cardCornerRadius="50dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+            app:layout_constraintEnd_toEndOf="@+id/imageView5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -7,10 +7,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.widget.AdapterView;
 
 import android.text.Editable;
@@ -73,12 +75,7 @@ public class AdvanceSearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_advance_search, container, false);
-
-
-
-
-
-        new Thread(new Runnable() {
+                new Thread(new Runnable() {
             @Override
             public void run() {
 
@@ -86,27 +83,28 @@ public class AdvanceSearchFragment extends Fragment {
                 OkHttpClient okHttpClient = new OkHttpClient();
 
                 Request request = new Request.Builder()
-                        .url(BuildConfig.URL+"/CityLoad")
+                        .url(BuildConfig.URL + "/CityLoad")
                         .build();
 
                 try {
                     Response response = okHttpClient.newCall(request).execute();
                     String responseText = response.body().string();
                     Log.i("MediConnectLogggggggggggggg", responseText);
-                    Type responseType2 = new TypeToken<ResponseList_DTO<DoctorCity_DTO>>() {}.getType();
+                    Type responseType2 = new TypeToken<ResponseList_DTO<DoctorCity_DTO>>() {
+                    }.getType();
                     ResponseList_DTO<DoctorCity_DTO> response_dto = gson.fromJson(responseText, responseType2);
 
                     if (response_dto.getSuccess()) {
                         List<DoctorCity_DTO> city = response_dto.getContent();
                         getActivity().runOnUiThread(() -> {
                             arrayList.clear();
-                            arrayList.add(new City(0,"All City"));
+                            arrayList.add(new City(0, "All City"));
                             for (DoctorCity_DTO citys : city) {
                                 arrayList.add(new City(citys.getId(), citys.getCity()));
-                                Log.i("MediConnectLogggggggggggggg", " "+citys.getCity());
-                                Log.i("MediConnectLogggggggggggggg", " "+citys.getId());
+                                Log.i("MediConnectLogggggggggggggg", " " + citys.getCity());
+                                Log.i("MediConnectLogggggggggggggg", " " + citys.getId());
                             }
-                            Log.i("MediConnectLogggggggggggggg", " "+arrayList);
+                            Log.i("MediConnectLogggggggggggggg", " " + arrayList);
                         });
                     }
                 } catch (IOException e) {
@@ -116,9 +114,9 @@ public class AdvanceSearchFragment extends Fragment {
             }
         }).start();
 
-        editTextSearch= view.findViewById(R.id.editTextText2);
-        textview=view.findViewById(R.id.testView);
-        textview2=view.findViewById(R.id.textView49);
+        editTextSearch = view.findViewById(R.id.editTextText2);
+        textview = view.findViewById(R.id.testView);
+        textview2 = view.findViewById(R.id.textView49);
 
         textview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,16 +125,16 @@ public class AdvanceSearchFragment extends Fragment {
 
                 dialog.setContentView(R.layout.dialog_searchable_spinner);
 
-                dialog.getWindow().setLayout(650,800);
+                dialog.getWindow().setLayout(650, 800);
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 dialog.show();
 
-                EditText editText=dialog.findViewById(R.id.edit_text);
-                ListView listView=dialog.findViewById(R.id.list_view);
+                EditText editText = dialog.findViewById(R.id.edit_text);
+                ListView listView = dialog.findViewById(R.id.list_view);
 
-                ArrayAdapter<City> adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1,arrayList);
+                ArrayAdapter<City> adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, arrayList);
 
                 listView.setAdapter(adapter);
                 editText.addTextChangedListener(new TextWatcher() {
@@ -149,6 +147,7 @@ public class AdvanceSearchFragment extends Fragment {
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         adapter.getFilter().filter(s);
                     }
+
                     @Override
                     public void afterTextChanged(Editable s) {
 
@@ -175,7 +174,8 @@ public class AdvanceSearchFragment extends Fragment {
         });
 
 
-        Spinner spinner2 = view.findViewById(R.id.spinner2);;
+        Spinner spinner2 = view.findViewById(R.id.spinner2);
+        ;
         String rate[] = new String[]{"Select Rate", "1 ⭐", "2 ⭐ ⭐", "3 ⭐ ⭐ ⭐", "4 ⭐ ⭐ ⭐ ⭐", "5 ⭐ ⭐ ⭐ ⭐ ⭐"};
 
 
@@ -210,14 +210,15 @@ public class AdvanceSearchFragment extends Fragment {
                 OkHttpClient okHttpClient = new OkHttpClient();
 
                 Request request = new Request.Builder()
-                        .url(BuildConfig.URL+"/PatientHomeLoadDocters")
+                        .url(BuildConfig.URL + "/PatientHomeLoadDocters")
                         .build();
 
                 try {
                     Response response = okHttpClient.newCall(request).execute();
                     String responseText = response.body().string();
                     Log.i("MediConnectLog", responseText);
-                    Type responseType = new TypeToken<ResponseList_DTO<Clinics_DTO>>() {}.getType();
+                    Type responseType = new TypeToken<ResponseList_DTO<Clinics_DTO>>() {
+                    }.getType();
                     ResponseList_DTO<Clinics_DTO> response_dto = gson.fromJson(responseText, responseType);
 
                     if (response_dto.getSuccess()) {
@@ -225,7 +226,7 @@ public class AdvanceSearchFragment extends Fragment {
                         getActivity().runOnUiThread(() -> {
                             docterList.clear();
                             for (Clinics_DTO doctor : doctors) {
-                                docterList.add(new User(String.valueOf(doctor.getDocters()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile()));
+                                docterList.add(new User(String.valueOf(doctor.getDocters()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile(), String.valueOf(doctor.getDoctor_Availability_id())));
                             }
                             userAdapter.notifyDataSetChanged();
                         });
@@ -241,7 +242,8 @@ public class AdvanceSearchFragment extends Fragment {
 
         editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -254,7 +256,8 @@ public class AdvanceSearchFragment extends Fragment {
 
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         return view;
@@ -269,11 +272,11 @@ public class AdvanceSearchFragment extends Fragment {
             JsonObject search = new JsonObject();
             search.addProperty("city", textview.getText().toString());
             search.addProperty("name", editTextSearch.getText().toString());
-            search.addProperty("cityId",textview2.getText().toString());
+            search.addProperty("cityId", textview2.getText().toString());
 
             RequestBody requestBody = RequestBody.create(gson.toJson(search), MediaType.get("application/json"));
             Request request = new Request.Builder()
-                    .url(BuildConfig.URL+"/PatientAdvanceSearch")
+                    .url(BuildConfig.URL + "/PatientAdvanceSearch")
                     .post(requestBody)
                     .build();
             try {
@@ -281,58 +284,8 @@ public class AdvanceSearchFragment extends Fragment {
                 String responseText = response.body().string();
                 Log.i("MediConnectLogggggggggggggg", responseText);
 
-                Type responseType = new TypeToken<ResponseList_DTO<Clinics_DTO>>() {}.getType();
-                ResponseList_DTO<Clinics_DTO> response_dto = gson.fromJson(responseText, responseType);
-
-                if (response_dto.getSuccess()) {
-                    List<Clinics_DTO> doctors = response_dto.getContent();
-                    getActivity().runOnUiThread(() -> {
-                        docterList.clear();
-                        for (Clinics_DTO doctor : doctors) {
-                            docterList.add(new User(
-                                    String.valueOf(doctor.getDocters()),
-                                    doctor.getFirst_name() + " " + doctor.getLast_name(),
-                                    doctor.getClinic_city(),
-                                    doctor.getAppointment_price(),
-                                    doctor.getRate(),
-                                    doctor.getAbout(),
-                                    doctor.getExperience(),
-                                    doctor.getClinic_address(),
-                                    doctor.getMobile()
-                            ));
-                        }
-                        userAdapter.notifyDataSetChanged();
-                    });
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
-
-
-    private void searchDoctors (){
-
-        new Thread(() -> {
-            Gson gson = new Gson();
-            OkHttpClient okHttpClient = new OkHttpClient();
-
-            JsonObject search = new JsonObject();
-            search.addProperty("city", textview.getText().toString());
-            search.addProperty("name", editTextSearch.getText().toString());
-            search.addProperty("cityId",textview2.getText().toString());
-
-            RequestBody requestBody = RequestBody.create(gson.toJson(search), MediaType.get("application/json"));
-            Request request = new Request.Builder()
-                    .url(BuildConfig.URL+"/PatientAdvanceSearch")
-                    .post(requestBody)
-                    .build();
-            try {
-                Response response = okHttpClient.newCall(request).execute();
-                String responseText = response.body().string();
-                Log.i("MediConnectLogggggggggggggg", responseText);
-
-                Type responseType = new TypeToken<ResponseList_DTO<Clinics_DTO>>() {}.getType();
+                Type responseType = new TypeToken<ResponseList_DTO<Clinics_DTO>>() {
+                }.getType();
                 ResponseList_DTO<Clinics_DTO> response_dto = gson.fromJson(responseText, responseType);
                 getActivity().runOnUiThread(() -> {
                     docterList.clear();
@@ -348,7 +301,67 @@ public class AdvanceSearchFragment extends Fragment {
                                     doctor.getAbout(),
                                     doctor.getExperience(),
                                     doctor.getClinic_address(),
-                                    doctor.getMobile()
+                                    doctor.getMobile(),
+                                    String.valueOf(doctor.getDoctor_Availability_id())
+                            ));
+                        }
+
+                        Log.i("MediConnectLogggggggggggggg", " " + docterList);
+                    } else {
+                        // Clear the list if no data is found and notify adapter
+                        docterList.clear();
+                        userAdapter.notifyDataSetChanged();
+                        Log.i("MediConnectLogggggggggggggg", "No doctors found, list cleared.");
+                    }
+                    userAdapter.notifyDataSetChanged();
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+
+    private void searchDoctors() {
+
+        new Thread(() -> {
+            Gson gson = new Gson();
+            OkHttpClient okHttpClient = new OkHttpClient();
+
+            JsonObject search = new JsonObject();
+            search.addProperty("city", textview.getText().toString());
+            search.addProperty("name", editTextSearch.getText().toString());
+            search.addProperty("cityId", textview2.getText().toString());
+
+            RequestBody requestBody = RequestBody.create(gson.toJson(search), MediaType.get("application/json"));
+            Request request = new Request.Builder()
+                    .url(BuildConfig.URL + "/PatientAdvanceSearch")
+                    .post(requestBody)
+                    .build();
+            try {
+                Response response = okHttpClient.newCall(request).execute();
+                String responseText = response.body().string();
+                Log.i("MediConnectLogggggggggggggg", responseText);
+
+                Type responseType = new TypeToken<ResponseList_DTO<Clinics_DTO>>() {
+                }.getType();
+                ResponseList_DTO<Clinics_DTO> response_dto = gson.fromJson(responseText, responseType);
+                getActivity().runOnUiThread(() -> {
+                    docterList.clear();
+                    if (response_dto.getSuccess()) {
+                        List<Clinics_DTO> doctors = response_dto.getContent();
+                        for (Clinics_DTO doctor : doctors) {
+                            docterList.add(new User(
+                                    String.valueOf(doctor.getDocters()),
+                                    doctor.getFirst_name() + " " + doctor.getLast_name(),
+                                    doctor.getClinic_city(),
+                                    doctor.getAppointment_price(),
+                                    doctor.getRate(),
+                                    doctor.getAbout(),
+                                    doctor.getExperience(),
+                                    doctor.getClinic_address(),
+                                    doctor.getMobile(),
+                                    String.valueOf(doctor.getDoctor_Availability_id())
                             ));
                         }
                         Log.i("MediConnectLogggggggggggggg", " " + docterList);
@@ -387,11 +400,15 @@ class Adapter2 extends RecyclerView.Adapter<lk.oodp2.mediconnect01.ui.search.Ada
 
         //        ImageView profileImage;
         TextView textViewName, textViewCity, textViewRate;
+
+        CardView cardColor;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.textView18);
             textViewCity = itemView.findViewById(R.id.textView21);
             textViewRate = itemView.findViewById(R.id.textView22);
+            cardColor = itemView.findViewById(R.id.statuscard1);
             itemView.findViewById(R.id.button8).setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
@@ -405,6 +422,7 @@ class Adapter2 extends RecyclerView.Adapter<lk.oodp2.mediconnect01.ui.search.Ada
                     intent.putExtra("experiance", user.getExperiance());
                     intent.putExtra("location", user.getLocation());
                     intent.putExtra("mobile", user.getMobile());
+                    intent.putExtra("status", user.getStatus());
                     itemView.getContext().startActivity(intent);
                 }
             });
@@ -424,9 +442,20 @@ class Adapter2 extends RecyclerView.Adapter<lk.oodp2.mediconnect01.ui.search.Ada
     @Override
     public void onBindViewHolder(@NonNull lk.oodp2.mediconnect01.ui.search.Adapter2.ViewHolder holder, int position) {
         User user = userList.get(position);
-        holder.textViewName.setText(user.getDocterName());
+        holder.textViewName.setText("Dr." +user.getDocterName());
         holder.textViewCity.setText(user.getDocterCity());
         holder.textViewRate.setText(user.getRate());
+        Log.i("MediConnectLoggggggggggggggg", "onBindViewHold"+user.getStatus());
+        // Always reset visibility before setting color
+        holder.cardColor.setVisibility(View.VISIBLE);  // 🔥 Reset visibility
+
+        if (!user.getStatus().equals("4.0")) {
+            holder.cardColor.setCardBackgroundColor(Color.parseColor("#79BF2B"));
+            Log.i("MediConnectLoggggggggggggggg", "online");
+        } else {
+            holder.cardColor.setVisibility(View.GONE);
+            Log.i("MediConnectLoggggggggggggggg", "offline");
+        }
     }
 
     @Override

@@ -11,8 +11,9 @@ public class User {
     private String experiance;
     private String location;
     private String mobile;
+    private String status;
 
-    public User(String docterId, String docterName, String docterCity, String price, String rate, String about, String experiance, String location, String mobile) {
+    public User(String docterId, String docterName, String docterCity, String price, String rate, String about, String experiance, String location, String mobile, String status) {
         this.docterId = docterId;
         this.docterName = docterName;
         this.docterCity = docterCity;
@@ -22,6 +23,7 @@ public class User {
         this.experiance = experiance;
         this.location = location;
         this.mobile = mobile;
+        this.status = status;
     }
 
     public String getDocterId() {
@@ -94,5 +96,13 @@ public class User {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

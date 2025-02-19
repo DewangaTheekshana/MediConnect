@@ -1,6 +1,7 @@
 package lk.oodp2.mediconnect01.ui.home;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,7 +40,7 @@ import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
-    private ArrayList<User> docterList = new ArrayList<>();
+    private ArrayList<User>           docterList = new ArrayList<>();
     private Adapter1 userAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -111,7 +113,7 @@ public class HomeFragment extends Fragment {
                     getActivity().runOnUiThread(() -> {
                         docterList.clear();
                         for (Clinics_DTO doctor : doctors) {
-                            docterList.add(new User(String.valueOf(doctor.getDocters()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile()));
+                            docterList.add(new User(String.valueOf(doctor.getDocters()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile(), String.valueOf(doctor.getDoctor_Availability_id())));
                         }
                         userAdapter.notifyDataSetChanged();
                         Log.i("MediConnectLogggggggggggggg", " "+docterList);
@@ -132,8 +134,9 @@ public class HomeFragment extends Fragment {
                 searchList.add(doctor);
             }
         }
-        userAdapter.updateList(searchList);
+        userAdapter.updateList(searchList);  // ✅ Update adapter correctly
     }
+
 
     @Override
     public void onDestroyView() {
@@ -156,11 +159,13 @@ class Adapter1 extends RecyclerView.Adapter<Adapter1.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewName, textViewCity, textViewRate;
+        CardView cardColor;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.textView18);
             textViewCity = itemView.findViewById(R.id.textView21);
             textViewRate = itemView.findViewById(R.id.textView22);
+            cardColor = itemView.findViewById(R.id.statuscard1);
             itemView.findViewById(R.id.button8).setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
@@ -174,6 +179,7 @@ class Adapter1 extends RecyclerView.Adapter<Adapter1.ViewHolder> {
                     intent.putExtra("experiance", user.getExperiance());
                     intent.putExtra("location", user.getLocation());
                     intent.putExtra("mobile", user.getMobile());
+                    intent.putExtra("status", user.getStatus());
                     itemView.getContext().startActivity(intent);
                 }
             });
@@ -193,6 +199,11 @@ class Adapter1 extends RecyclerView.Adapter<Adapter1.ViewHolder> {
         holder.textViewName.setText("Dr." + docter.getDocterName());
         holder.textViewCity.setText(docter.getDocterCity());
         holder.textViewRate.setText(docter.getRate());
+        if (docter.getStatus().equals("3.0")){
+            holder.cardColor.setCardBackgroundColor(Color.parseColor("#79BF2B"));
+        }else {
+            holder.cardColor.setVisibility(View.GONE);
+        }
     }
 
     @Override
