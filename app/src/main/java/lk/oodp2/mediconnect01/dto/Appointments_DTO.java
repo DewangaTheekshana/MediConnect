@@ -6,9 +6,11 @@ public class Appointments_DTO implements Serializable{
 
     private int id;
 
-    private User_DTO user;
+    private Object user_id;
 
-    private Doctors_DTO docters;
+    private String docters;
+
+    private String location;
 
     private String appointment_date;
 
@@ -17,37 +19,12 @@ public class Appointments_DTO implements Serializable{
     private String status;
 
 
-
-    public int getId() {
-        return id;
+    public String getStatus() {
+        return status;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public User_DTO getUser() {
-        return user;
-    }
-
-    public void setUser(User_DTO user_dto) {
-        this.user = user_dto;
-    }
-
-    public Doctors_DTO getDocters() {
-        return docters;
-    }
-
-    public void setDocters(Doctors_DTO docters_dto) {
-        this.docters = docters_dto;
-    }
-
-    public String getAppointment_date() {
-        return appointment_date;
-    }
-
-    public void setAppointment_date(String appointment_date) {
-        this.appointment_date = appointment_date;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getAppointment_time() {
@@ -58,13 +35,43 @@ public class Appointments_DTO implements Serializable{
         this.appointment_time = appointment_time;
     }
 
-    public String getStatus() {
-        return status;
+    public String getAppointment_date() {
+        return appointment_date;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setAppointment_date(String appointment_date) {
+        this.appointment_date = appointment_date;
     }
 
+    public String getLocation() {
+        return location;
+    }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDocters() {
+        return docters;
+    }
+
+    public void setDocters(String docters) {
+        this.docters = docters;
+    }
+
+    public Object getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Object user_id) {
+        this.user_id = user_id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

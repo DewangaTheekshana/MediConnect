@@ -36,7 +36,13 @@
             android:label="@string/title_activity_bottom_nav" />
         <activity
             android:name=".DoctersLogin"
-            android:exported="false" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".PatientsLogin"
             android:exported="false" />
@@ -48,14 +54,7 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true"/>
     </application>
 
     <uses-permission android:name="android.permission.CALL_PHONE"/>

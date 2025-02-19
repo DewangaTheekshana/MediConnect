@@ -36,7 +36,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="45dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:scrollbarSize="0dp"
@@ -45,7 +45,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -56,9 +57,8 @@
 
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:hint="@string/text7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -84,7 +84,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:hint="@string/text8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -109,7 +109,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:hint="@string/text9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -133,7 +133,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:hint="@string/text10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -155,9 +155,9 @@
 
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:hint="@string/text11"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -179,14 +179,14 @@
 
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
 
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:hint="@string/text21"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filledTextField4">
+                app:layout_constraintTop_toBottomOf="@+id/filledTextField5">
 
                 <!--this is the actual edit text which takes the input-->
                 <com.google.android.material.textfield.TextInputEditText
@@ -200,47 +200,74 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Space
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
+                android:id="@+id/space"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/button"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:backgroundTint="@color/Patients_Button"
-                android:text="@string/text6" />
+                android:text="@string/text6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView13" />
 
             <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
+                android:id="@+id/space2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="5dp"
-                    android:text="@string/text15"
-                    android:textAlignment="textEnd"
-                    android:textSize="14sp" />
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="50dp"
+                android:paddingEnd="5dp"
+                android:text="@string/text15"
+                android:textAlignment="textEnd"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/button"
+                app:layout_constraintTop_toBottomOf="@+id/button" />
 
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/button4"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/Patients_Button"
-                    android:textStyle="bold" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button4"
+                android:textAlignment="textStart"
+                android:textColor="@color/Patients_Button"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/textView10"
+                app:layout_constraintTop_toBottomOf="@+id/button" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView13"
+                android:layout_width="170dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_button_default"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filledTextField6"
+                app:srcCompat="@drawable/baseline_add_24"
+                tools:srcCompat="@drawable/baseline_add_24" />
+
+            <ImageView
+                android:id="@+id/imageView22"
+                android:layout_width="170dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_button_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filledTextField6"
+                app:srcCompat="@drawable/baseline_add_24"
+                tools:srcCompat="@drawable/baseline_add_24" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

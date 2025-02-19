@@ -30,6 +30,7 @@ import java.util.List;
 import lk.oodp2.mediconnect01.BuildConfig;
 import lk.oodp2.mediconnect01.DocterDetailView;
 import lk.oodp2.mediconnect01.R;
+import lk.oodp2.mediconnect01.dto.Appointments_DTO;
 import lk.oodp2.mediconnect01.dto.Clinics_DTO;
 import lk.oodp2.mediconnect01.dto.ResponseList_DTO;
 import lk.oodp2.mediconnect01.dto.User_DTO;
@@ -45,8 +46,11 @@ import okhttp3.Response;
 public class AppointmentsFragment extends Fragment {
 
     private ArrayList<Appointments> appointmentList = new ArrayList<>();
+    private ArrayList<Appointments> appointmentHistoryList = new ArrayList<>();
 
     private Adapter3 userAdapter;
+
+    private Adapter4 userAdapter4;
 
     public AppointmentsFragment() {
         // Required empty public constructor
@@ -57,26 +61,6 @@ public class AppointmentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_appointments, container, false);
-
-        ArrayList<Appointments> appointmentList = new ArrayList<>();
-        appointmentList.add(new Appointments("1", "Dr. Shehan Pereraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "66/3 Yatiyana Road, Wawita, Bandaragama", "2024/03/03", "10.30PM"));
-        appointmentList.add(new Appointments("2", "Dr. Kaveesha Danujaya", "Colomo 1", "2024/03/03", "10.30PM"));
-        appointmentList.add(new Appointments("3", "Dr. Kavindu Kodikara", "Colomo 2", "2024/03/04", "8.30PM"));
-        appointmentList.add(new Appointments("4", "Dr. Sumya sewmini", "Colomo 3", "2024/03/05", "10.30AM"));
-        appointmentList.add(new Appointments("5", "Dr. Kasun Perera", "Colomo 4", "2024/03/06", "10.30PM"));
-        appointmentList.add(new Appointments("6", "Dr. Pasan Perera", "Colomo 5", "2024/03/07", "10.30PM"));
-        appointmentList.add(new Appointments("7", "Dr. Sadun Perera", "Colomo 6", "2024/03/08", "11.30PM"));
-        appointmentList.add(new Appointments("8", "Dr. Warun Perera", "Colomo 7", "2024/03/09", "10.30PM"));
-
-
-        RecyclerView recyclerView1 = view.findViewById(R.id.recyclerView4);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView1.setLayoutManager(linearLayoutManager);
-
-        Adapter3 appointmentsAdapter = new Adapter3(appointmentList);
-        recyclerView1.setAdapter(appointmentsAdapter);
-
 
         return view;
     }
@@ -117,21 +101,21 @@ public class AppointmentsFragment extends Fragment {
                 try {
                     Response response = okHttpClient.newCall(request).execute();
                     String responseText = response.body().string();
-                    Log.i("MediConnectLogggggggggggggg", responseText);
-//                Type responseType = new TypeToken<ResponseList_DTO<Clinics_DTO>>() {}.getType();
-//                ResponseList_DTO<Clinics_DTO> response_dto = gson.fromJson(responseText, responseType);
-//                if (response_dto.getSuccess()) {
-//                    List<Clinics_DTO> doctors = response_dto.getContent();
-//                    getActivity().runOnUiThread(() -> {
-//                        appointmentList.clear();
-//                        for (Clinics_DTO doctor : doctors) {
-//                            appointmentList.add(new User(String.valueOf(doctor.getDocters()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile(), String.valueOf(doctor.getDoctor_Availability_id())));
-//                        }
-//                        userAdapter.notifyDataSetChanged();
-//                        Log.i("MediConnectLogggggggggggggg", " "+appointmentList);
-//                    });
+                    Log.i("MediConnectLoga", responseText);
+                Type responseType = new TypeToken<ResponseList_DTO<Appointments_DTO>>() {}.getType();
+                ResponseList_DTO<Appointments_DTO> response_dto = gson.fromJson(responseText, responseType);
+                if (response_dto.getSuccess()) {
+                    List<Appointments_DTO> doctors = response_dto.getContent();
+                    getActivity().runOnUiThread(() -> {
+                        appointmentList.clear();
+                        for (Appointments_DTO appointmentsDto : doctors) {
+                            appointmentList.add(new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time())));
+                        }
+                        userAdapter.notifyDataSetChanged();
+                        Log.i("MediConnectLogggggggggggggg", " "+appointmentList);
+                    });
 //
-//                }
+                }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -140,6 +124,105 @@ public class AppointmentsFragment extends Fragment {
                 Log.i("MediConnectLoga", "No user data found in SharedPreferences");
             }
 
+            if (userJson != null) {
+                User_DTO user_dto = gson.fromJson(userJson, User_DTO.class); // Convert JSON to object
+
+                // Log or use the data
+                Log.i("MediConnectLoga", "User Name: " + user_dto.getFirst_name() + " " + user_dto.getLast_name());
+                Log.i("MediConnectLoga", "User City: " + user_dto.getId());
+
+                JsonObject appointment = new JsonObject();
+                appointment.addProperty("userId", String.valueOf(user_dto.getId()));
+
+                RequestBody requestBody = RequestBody.create(gson.toJson(appointment), MediaType.get("application/json"));
+                Request request = new Request.Builder()
+                        .url(BuildConfig.URL+"/AppointmnetLoad")
+                        .post(requestBody)
+                        .build();
+                try {
+                    Response response = okHttpClient.newCall(request).execute();
+                    String responseText = response.body().string();
+                    Log.i("MediConnectLoga", responseText);
+                    Type responseType = new TypeToken<ResponseList_DTO<Appointments_DTO>>() {}.getType();
+                    ResponseList_DTO<Appointments_DTO> response_dto = gson.fromJson(responseText, responseType);
+                    if (response_dto.getSuccess()) {
+                        List<Appointments_DTO> doctors = response_dto.getContent();
+                        getActivity().runOnUiThread(() -> {
+                            appointmentList.clear();
+                            for (Appointments_DTO appointmentsDto : doctors) {
+                                appointmentList.add(new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time())));
+                            }
+                            userAdapter.notifyDataSetChanged();
+                            Log.i("MediConnectLogggggggggggggg", " "+appointmentList);
+                        });
+//
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Log.i("MediConnectLoga", "No user data found in SharedPreferences");
+            }
+
+        }).start();
+
+        RecyclerView recyclerView2 = getActivity().findViewById(R.id.recyclerViewAppoinmentHistory);
+        recyclerView2.setLayoutManager(new LinearLayoutManager(getContext()));
+        userAdapter4 = new Adapter4(appointmentHistoryList);
+        recyclerView2.setAdapter(userAdapter4);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Gson gson = new Gson();
+                OkHttpClient okHttpClient = new OkHttpClient();
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("lk.oodp2.mediconnect01.user", Context.MODE_PRIVATE);
+                String userJson = sharedPreferences.getString("user", null); // Retrieve JSON string
+
+                if (userJson != null) {
+                    User_DTO user_dto = gson.fromJson(userJson, User_DTO.class); // Convert JSON to object
+
+                    // Log or use the data
+                    Log.i("MediConnectLoga", "User Name: " + user_dto.getFirst_name() + " " + user_dto.getLast_name());
+                    Log.i("MediConnectLoga", "User City: " + user_dto.getId());
+
+                    JsonObject appointment = new JsonObject();
+                    appointment.addProperty("userId", String.valueOf(user_dto.getId()));
+
+                    RequestBody requestBody = RequestBody.create(gson.toJson(appointment), MediaType.get("application/json"));
+                    Request request = new Request.Builder()
+                            .url(BuildConfig.URL+"/AppointmentHistoryLoad")
+                            .post(requestBody)
+                            .build();
+                    try {
+                        Response response = okHttpClient.newCall(request).execute();
+                        String responseText = response.body().string();
+                        Log.i("MediConnectLoga", "History"+responseText);
+                        Type responseType = new TypeToken<ResponseList_DTO<Appointments_DTO>>() {}.getType();
+                        ResponseList_DTO<Appointments_DTO> response_dto = gson.fromJson(responseText, responseType);
+                        if (response_dto.getSuccess()) {
+                            List<Appointments_DTO> doctors = response_dto.getContent();
+                            getActivity().runOnUiThread(() -> {
+                                appointmentHistoryList.clear();
+                                for (Appointments_DTO appointmentsDto : doctors) {
+                                    appointmentHistoryList.add(new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time())));
+                                }
+                                userAdapter4.notifyDataSetChanged();
+                                Log.i("MediConnectLogggggggggggggg", " "+appointmentHistoryList);
+                            });
+//
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    Log.i("MediConnectLoga", "No user data found in SharedPreferences");
+                }
+            }
         }).start();
 
     }
@@ -199,6 +282,58 @@ class Adapter3 extends RecyclerView.Adapter<Adapter3.appointmentViewHolder> {
     @Override
     public int getItemCount() {
         return appointmentList.size();
+    }
+
+}
+
+class Adapter4 extends RecyclerView.Adapter<Adapter4.appointmentViewHolder> {
+
+    static class appointmentViewHolder extends RecyclerView.ViewHolder {
+        TextView textViewName;
+        TextView textViewTime;
+        TextView textViewDate;
+        Button buttonFindLocation;
+
+        public appointmentViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            textViewName = itemView.findViewById(R.id.textView41);
+            textViewTime = itemView.findViewById(R.id.textView42);
+            textViewDate = itemView.findViewById(R.id.textView43);
+            buttonFindLocation = itemView.findViewById(R.id.button13);
+
+        }
+    }
+    static ArrayList<Appointments> appointmentHistoryList;
+
+    public Adapter4(ArrayList<Appointments> appointmentList) {
+        this.appointmentHistoryList = appointmentList;
+    }
+
+    @NonNull
+    @Override
+    public appointmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.appointments_load, parent, false);
+        appointmentViewHolder viewHolder2 = new appointmentViewHolder(view);
+
+        return viewHolder2;
+
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull appointmentViewHolder holder, int position) {
+        Appointments appointments = appointmentHistoryList.get(position);
+        holder.textViewName.setText(appointments.getDoctorName());
+        holder.textViewDate.setText(appointments.getDate());
+        holder.textViewTime.setText(appointments.getTime());
+        holder.buttonFindLocation.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public int getItemCount() {
+        return appointmentHistoryList.size();
     }
 
 }

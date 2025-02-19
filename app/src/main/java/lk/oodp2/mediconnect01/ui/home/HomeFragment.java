@@ -40,7 +40,7 @@ import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
-    private ArrayList<User>           docterList = new ArrayList<>();
+    private ArrayList<User> docterList = new ArrayList<>();
     private Adapter1 userAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -64,6 +64,12 @@ public class HomeFragment extends Fragment {
         imageView12.setOnClickListener(v -> {
             BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottom_navigation);
             bottomNavigationView.setSelectedItemId(R.id.navigation_search); // ID of the tab
+        });
+
+        Button button12 = root.findViewById(R.id.button12);
+        button12.setOnClickListener(v -> {
+            BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottom_navigation);
+            bottomNavigationView.setSelectedItemId(R.id.navigation_appointments); // ID of the tab
         });
 
         EditText editTextSearch1 = root.findViewById(R.id.editTextSearch1);
