@@ -118,20 +118,6 @@ public class DoctorHomeActivity extends AppCompatActivity {
                                     button17.setText("Now Offline");
 
                                 }
-//                                Type responseType = new TypeToken<ResponseList_DTO<Appointments_DTO>>() {}.getType();
-//                                ResponseList_DTO<Appointments_DTO> response_dto = gson.fromJson(responseText, responseType);
-//                                if (response_dto.getSuccess()) {
-//                                    List<Appointments_DTO> doctors = response_dto.getContent();
-//                                    runOnUiThread(() -> {
-//                                        appointmentDocterLoadList.clear();
-//                                        for (Appointments_DTO appointmentsDto : doctors) {
-//                                            appointmentDocterLoadList.add(new AppointmentDocter(String.valueOf(appointmentsDto.getId()), appointmentsDto.getUser_id(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time()), appointmentsDto.getDoctor_Availability_id(), appointmentsDto.getStatus()));
-//                                        }
-//                                        userAdapter.notifyDataSetChanged();
-//                                        Log.i("MediConnectLogggggggggggggg", " "+appointmentDocterLoadList);
-//                                    });
-//
-//                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

@@ -29,7 +29,7 @@ public class DoctersRegistration extends AppCompatActivity {
         layout3 = findViewById(R.id.filledTextField3);
         layout4 = findViewById(R.id.filledTextField4);
         layout5 = findViewById(R.id.filledTextField5);
-        layout6 = findViewById(R.id.filledTextField6);
+        layout6 = findViewById(R.id.filledTextField7);
 
         editText1 = findViewById(R.id.edit_text1);
         editText2 = findViewById(R.id.edit_text2);
