@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +16,15 @@
         android:theme="@style/Theme.MediConnect01"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".DoctorsProfile"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".DocterProfile"
+            android:exported="false" />
         <activity
             android:name=".AdvanceSearchActivity"
             android:exported="false" />
@@ -36,13 +46,7 @@
             android:label="@string/title_activity_bottom_nav" />
         <activity
             android:name=".DoctersLogin"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".PatientsLogin"
             android:exported="false" />
@@ -54,9 +58,13 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"/>
-    </application>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 
 </manifest>

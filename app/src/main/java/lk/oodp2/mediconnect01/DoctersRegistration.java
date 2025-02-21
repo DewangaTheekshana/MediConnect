@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +42,16 @@ public class DoctersRegistration extends AppCompatActivity {
         shakeAnimation = AnimationUtils.loadAnimation(this, R.anim.shake);
 
         registerButton.setOnClickListener(v -> validateFields());
+
+        TextView textView12 = findViewById(R.id.textView12);
+        textView12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctersRegistration.this, DoctersLogin.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            }
+        });
     }
 
     private void validateFields() {

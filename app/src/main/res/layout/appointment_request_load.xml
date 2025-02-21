@@ -8,7 +8,7 @@
     <View
         android:id="@+id/view13"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="90dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/shadow_box"
@@ -22,17 +22,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/text39"
         app:layout_constraintBottom_toBottomOf="@+id/view14"
-        app:layout_constraintStart_toEndOf="@+id/view14" />
+        app:layout_constraintStart_toEndOf="@+id/view14"
+        app:layout_constraintTop_toBottomOf="@+id/textView47" />
 
     <TextView
         android:id="@+id/textView47"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
         android:maxWidth="200dp"
         android:singleLine="true"
         android:text="Sahan Perera"
@@ -64,12 +64,12 @@
         android:id="@+id/textView48"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:text="@string/text40"
-        app:layout_constraintStart_toEndOf="@+id/textView46"
-        app:layout_constraintTop_toTopOf="@+id/textView46" />
+        app:layout_constraintStart_toStartOf="@+id/textView46"
+        app:layout_constraintTop_toBottomOf="@+id/textView46" />
 
     <Space
+        android:id="@+id/space3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -77,5 +77,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/view13"
+        app:layout_constraintEnd_toEndOf="@+id/view13"
+        app:layout_constraintTop_toBottomOf="@+id/space3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

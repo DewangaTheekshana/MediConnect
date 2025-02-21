@@ -6,6 +6,8 @@ public class Doctors_DTO {
 
     private DoctorAvailability_DTO Doctor_Availability;
 
+    private DoctorCity_DTO docter_city_id;
+
     private String first_name;
 
     private String last_name;
@@ -151,5 +153,13 @@ public class Doctors_DTO {
 
     public void setClinic_address(String clinic_address) {
         this.clinic_address = clinic_address;
+    }
+
+    public DoctorCity_DTO getDocter_city_id() {
+        return docter_city_id;
+    }
+
+    public void setDocter_city_id(DoctorCity_DTO docter_city_id) {
+        this.docter_city_id = docter_city_id;
     }
 }

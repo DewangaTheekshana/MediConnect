@@ -6,13 +6,15 @@ public class Appointments {
     private String location;
     private String date;
     private String time;
+    private String status;
 
-    public Appointments(String id, String doctorName, String location, String date, String time) {
+    public Appointments(String id, String doctorName, String location, String date, String time, String status) {
         this.id = id;
         this.doctorName = doctorName;
         this.location = location;
         this.date = date;
         this.time = time;
+        this.status = status;
     }
 
     public String getId() {
@@ -53,5 +55,13 @@ public class Appointments {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

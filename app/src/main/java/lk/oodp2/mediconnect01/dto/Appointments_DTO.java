@@ -6,7 +6,7 @@ public class Appointments_DTO implements Serializable{
 
     private int id;
 
-    private Object user_id;
+    private String user_id;
 
     private String docters;
 
@@ -17,6 +17,8 @@ public class Appointments_DTO implements Serializable{
     private String appointment_time;
 
     private String status;
+
+    private String doctor_Availability_id;
 
 
     public String getStatus() {
@@ -59,11 +61,11 @@ public class Appointments_DTO implements Serializable{
         this.docters = docters;
     }
 
-    public Object getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(Object user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 
@@ -73,5 +75,13 @@ public class Appointments_DTO implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getDoctor_Availability_id() {
+        return doctor_Availability_id;
+    }
+
+    public void setDoctor_Availability_id(String doctor_Availability_id) {
+        this.doctor_Availability_id = doctor_Availability_id;
     }
 }

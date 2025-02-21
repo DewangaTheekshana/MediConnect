@@ -140,7 +140,7 @@ public class HomeFragment extends Fragment {
                 searchList.add(doctor);
             }
         }
-        userAdapter.updateList(searchList);  // ✅ Update adapter correctly
+        userAdapter.updateList(searchList);
     }
 
 

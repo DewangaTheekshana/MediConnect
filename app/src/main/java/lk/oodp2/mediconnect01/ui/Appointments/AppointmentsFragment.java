@@ -3,6 +3,7 @@ package lk.oodp2.mediconnect01.ui.Appointments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -109,7 +110,7 @@ public class AppointmentsFragment extends Fragment {
                     getActivity().runOnUiThread(() -> {
                         appointmentList.clear();
                         for (Appointments_DTO appointmentsDto : doctors) {
-                            appointmentList.add(new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time())));
+                            appointmentList.add(new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time()), appointmentsDto.getStatus()));
                         }
                         userAdapter.notifyDataSetChanged();
                         Log.i("MediConnectLogggggggggggggg", " "+appointmentList);
@@ -124,46 +125,46 @@ public class AppointmentsFragment extends Fragment {
                 Log.i("MediConnectLoga", "No user data found in SharedPreferences");
             }
 
-            if (userJson != null) {
-                User_DTO user_dto = gson.fromJson(userJson, User_DTO.class); // Convert JSON to object
-
-                // Log or use the data
-                Log.i("MediConnectLoga", "User Name: " + user_dto.getFirst_name() + " " + user_dto.getLast_name());
-                Log.i("MediConnectLoga", "User City: " + user_dto.getId());
-
-                JsonObject appointment = new JsonObject();
-                appointment.addProperty("userId", String.valueOf(user_dto.getId()));
-
-                RequestBody requestBody = RequestBody.create(gson.toJson(appointment), MediaType.get("application/json"));
-                Request request = new Request.Builder()
-                        .url(BuildConfig.URL+"/AppointmnetLoad")
-                        .post(requestBody)
-                        .build();
-                try {
-                    Response response = okHttpClient.newCall(request).execute();
-                    String responseText = response.body().string();
-                    Log.i("MediConnectLoga", responseText);
-                    Type responseType = new TypeToken<ResponseList_DTO<Appointments_DTO>>() {}.getType();
-                    ResponseList_DTO<Appointments_DTO> response_dto = gson.fromJson(responseText, responseType);
-                    if (response_dto.getSuccess()) {
-                        List<Appointments_DTO> doctors = response_dto.getContent();
-                        getActivity().runOnUiThread(() -> {
-                            appointmentList.clear();
-                            for (Appointments_DTO appointmentsDto : doctors) {
-                                appointmentList.add(new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time())));
-                            }
-                            userAdapter.notifyDataSetChanged();
-                            Log.i("MediConnectLogggggggggggggg", " "+appointmentList);
-                        });
+//            if (userJson != null) {
+//                User_DTO user_dto = gson.fromJson(userJson, User_DTO.class); // Convert JSON to object
 //
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                Log.i("MediConnectLoga", "No user data found in SharedPreferences");
-            }
+//                // Log or use the data
+//                Log.i("MediConnectLoga", "User Name: " + user_dto.getFirst_name() + " " + user_dto.getLast_name());
+//                Log.i("MediConnectLoga", "User City: " + user_dto.getId());
+//
+//                JsonObject appointment = new JsonObject();
+//                appointment.addProperty("userId", String.valueOf(user_dto.getId()));
+//
+//                RequestBody requestBody = RequestBody.create(gson.toJson(appointment), MediaType.get("application/json"));
+//                Request request = new Request.Builder()
+//                        .url(BuildConfig.URL+"/AppointmnetLoad")
+//                        .post(requestBody)
+//                        .build();
+//                try {
+//                    Response response = okHttpClient.newCall(request).execute();
+//                    String responseText = response.body().string();
+//                    Log.i("MediConnectLoga", responseText);
+//                    Type responseType = new TypeToken<ResponseList_DTO<Appointments_DTO>>() {}.getType();
+//                    ResponseList_DTO<Appointments_DTO> response_dto = gson.fromJson(responseText, responseType);
+//                    if (response_dto.getSuccess()) {
+//                        List<Appointments_DTO> doctors = response_dto.getContent();
+//                        getActivity().runOnUiThread(() -> {
+//                            appointmentList.clear();
+//                            for (Appointments_DTO appointmentsDto : doctors) {
+//                                appointmentList.add(new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time()), appointmentsDto.getStatus()));
+//                            }
+//                            userAdapter.notifyDataSetChanged();
+//                            Log.i("MediConnectLogggggggggggggg", " "+appointmentList);
+//                        });
+////
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            } else {
+//                Log.i("MediConnectLoga", "No user data found in SharedPreferences");
+//            }
 
         }).start();
 
@@ -208,7 +209,7 @@ public class AppointmentsFragment extends Fragment {
                             getActivity().runOnUiThread(() -> {
                                 appointmentHistoryList.clear();
                                 for (Appointments_DTO appointmentsDto : doctors) {
-                                    appointmentHistoryList.add(new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time())));
+                                    appointmentHistoryList.add(new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time()),appointmentsDto.getStatus()));
                                 }
                                 userAdapter4.notifyDataSetChanged();
                                 Log.i("MediConnectLogggggggggggggg", " "+appointmentHistoryList);
@@ -271,12 +272,19 @@ class Adapter3 extends RecyclerView.Adapter<Adapter3.appointmentViewHolder> {
         holder.textViewName.setText(appointments.getDoctorName());
         holder.textViewDate.setText(appointments.getDate());
         holder.textViewTime.setText(appointments.getTime());
-        holder.buttonFindLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), appointments.getLocation(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (appointments.getStatus().equals("0")){
+            holder.buttonFindLocation.setBackgroundColor(Color.parseColor("#f0950c"));
+            holder.buttonFindLocation.setText("Pending");
+        }else {
+            holder.buttonFindLocation.setBackgroundColor(Color.parseColor("#3CA0DF"));
+            holder.buttonFindLocation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(), appointments.getLocation(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
     }
 
     @Override

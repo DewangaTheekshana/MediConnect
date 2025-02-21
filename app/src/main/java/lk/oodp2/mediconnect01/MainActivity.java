@@ -28,6 +28,13 @@ public class MainActivity extends AppCompatActivity {
             finish(); // Close this activity to prevent going back
         }
 
+        SharedPreferences sharedPreferences2 = getSharedPreferences("lk.oodp2.mediconnect01.doctor", MODE_PRIVATE);
+        if (sharedPreferences2.contains("doctor")) {
+            Intent intent = new Intent(MainActivity.this, DoctorHomeActivity.class);
+            startActivity(intent);
+            finish(); // Close this activity to prevent going back
+        }
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
