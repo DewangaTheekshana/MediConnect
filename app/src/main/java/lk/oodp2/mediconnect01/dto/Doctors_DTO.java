@@ -34,6 +34,10 @@ public class Doctors_DTO {
 
     private String clinic_address;
 
+    private String availibilityTomeTo;
+
+    private String availibilityTomeFrom;
+
 
     public int getId() {
         return id;
@@ -41,6 +45,22 @@ public class Doctors_DTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getAvailibilityTomeFrom() {
+        return availibilityTomeFrom;
+    }
+
+    public void setAvailibilityTomeFrom(String availibilityTomeFrom) {
+        this.availibilityTomeFrom = availibilityTomeFrom;
+    }
+
+    public String getAvailibilityTomeTo() {
+        return availibilityTomeTo;
+    }
+
+    public void setAvailibilityTomeTo(String availibilityTomeTo) {
+        this.availibilityTomeTo = availibilityTomeTo;
     }
 
     public DoctorAvailability_DTO getDoctor_Availability() {

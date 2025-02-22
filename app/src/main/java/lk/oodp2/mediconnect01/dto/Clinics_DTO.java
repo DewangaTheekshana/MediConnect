@@ -41,10 +41,13 @@ public class Clinics_DTO implements Serializable {
 
     private String rate;
 
-    
+    private String availibility_time_to;
 
-    public Clinics_DTO(String email, int id, Doctors_DTO docters, String clinic_name, String clinic_address, String clinic_city, Object doctor_Availability_id, Object doctor_Availability_status, String first_name, String last_name, String password, String mobile, String appointment_price, String about, String experience, String rate) {
-        this.email = email;
+    private String availibility_time_from;
+
+
+    public Clinics_DTO(String experience, int id, Doctors_DTO docters, String clinic_name, String clinic_address, String clinic_city, Object doctor_Availability_id, Object doctor_Availability_status, String first_name, String last_name, String email, String password, String mobile, String appointment_price, String about, String rate, String availibility_time_to, String availibility_time_from) {
+        this.experience = experience;
         this.id = id;
         this.docters = docters;
         this.clinic_name = clinic_name;
@@ -54,12 +57,30 @@ public class Clinics_DTO implements Serializable {
         Doctor_Availability_status = doctor_Availability_status;
         this.first_name = first_name;
         this.last_name = last_name;
+        this.email = email;
         this.password = password;
         this.mobile = mobile;
         this.appointment_price = appointment_price;
         this.about = about;
-        this.experience = experience;
         this.rate = rate;
+        this.availibility_time_to = availibility_time_to;
+        this.availibility_time_from = availibility_time_from;
+    }
+
+    public String getAvailibility_time_to() {
+        return availibility_time_to;
+    }
+
+    public void setAvailibility_time_to(String availibility_time_to) {
+        this.availibility_time_to = availibility_time_to;
+    }
+
+    public String getAvailibility_time_from() {
+        return availibility_time_from;
+    }
+
+    public void setAvailibility_time_from(String availibility_time_from) {
+        this.availibility_time_from = availibility_time_from;
     }
 
     public String getAppointment_price() {

@@ -116,12 +116,15 @@ public class HomeFragment extends Fragment {
                 ResponseList_DTO<Clinics_DTO> response_dto = gson.fromJson(responseText, responseType);
                 if (response_dto.getSuccess()) {
                     List<Clinics_DTO> doctors = response_dto.getContent();
+                    Log.i("MediConnectLoggggggggo", "fuck"+response_dto.getContent());
                     getActivity().runOnUiThread(() -> {
                         docterList.clear();
                         for (Clinics_DTO doctor : doctors) {
-                            docterList.add(new User(String.valueOf(doctor.getDocters()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile(), String.valueOf(doctor.getDoctor_Availability_id())));
+                            docterList.add(new User(String.valueOf(doctor.getId()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile(), String.valueOf(doctor.getDoctor_Availability_id()),doctor.getAvailibility_time_to(),doctor.getAvailibility_time_from()));
+                            Log.i("MediConnectLoggggggggo", String.valueOf(doctor.getId()));
                         }
                         userAdapter.notifyDataSetChanged();
+
                         Log.i("MediConnectLogggggggggggggg", " "+docterList);
                     });
 
@@ -177,6 +180,7 @@ class Adapter1 extends RecyclerView.Adapter<Adapter1.ViewHolder> {
                 if (position != RecyclerView.NO_POSITION) {
                     User user = docterList.get(position);
                     Intent intent = new Intent(itemView.getContext(), DocterDetailView.class);
+                    intent.putExtra("doctor_id", user.getDocterId());
                     intent.putExtra("docterName", user.getDocterName());
                     intent.putExtra("docterCity", user.getDocterCity());
                     intent.putExtra("Price", user.getPrice());
@@ -186,6 +190,8 @@ class Adapter1 extends RecyclerView.Adapter<Adapter1.ViewHolder> {
                     intent.putExtra("location", user.getLocation());
                     intent.putExtra("mobile", user.getMobile());
                     intent.putExtra("status", user.getStatus());
+                    intent.putExtra("availibility_time_to", user.getAvailibility_time_to());
+                    intent.putExtra("availibility_time_from", user.getAvailibility_time_from());
                     itemView.getContext().startActivity(intent);
                 }
             });

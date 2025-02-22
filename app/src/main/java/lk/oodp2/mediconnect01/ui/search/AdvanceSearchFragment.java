@@ -226,7 +226,7 @@ public class AdvanceSearchFragment extends Fragment {
                         getActivity().runOnUiThread(() -> {
                             docterList.clear();
                             for (Clinics_DTO doctor : doctors) {
-                                docterList.add(new User(String.valueOf(doctor.getDocters()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile(), String.valueOf(doctor.getDoctor_Availability_id())));
+                                docterList.add(new User(String.valueOf(doctor.getDocters()), doctor.getFirst_name() + " " + doctor.getLast_name(), doctor.getClinic_city(), doctor.getAppointment_price(), doctor.getRate(), doctor.getAbout(), doctor.getExperience(), doctor.getClinic_address(), doctor.getMobile(), String.valueOf(doctor.getDoctor_Availability_id()),doctor.getAvailibility_time_to(),doctor.getAvailibility_time_from()));
                             }
                             userAdapter.notifyDataSetChanged();
                         });
@@ -302,7 +302,7 @@ public class AdvanceSearchFragment extends Fragment {
                                     doctor.getExperience(),
                                     doctor.getClinic_address(),
                                     doctor.getMobile(),
-                                    String.valueOf(doctor.getDoctor_Availability_id())
+                                    String.valueOf(doctor.getDoctor_Availability_id()),doctor.getAvailibility_time_to(),doctor.getAvailibility_time_from()
                             ));
                         }
 
@@ -361,7 +361,7 @@ public class AdvanceSearchFragment extends Fragment {
                                     doctor.getExperience(),
                                     doctor.getClinic_address(),
                                     doctor.getMobile(),
-                                    String.valueOf(doctor.getDoctor_Availability_id())
+                                    String.valueOf(doctor.getDoctor_Availability_id()),doctor.getAvailibility_time_to(),doctor.getAvailibility_time_from()
                             ));
                         }
                         Log.i("MediConnectLogggggggggggggg", " " + docterList);
@@ -423,6 +423,8 @@ class Adapter2 extends RecyclerView.Adapter<lk.oodp2.mediconnect01.ui.search.Ada
                     intent.putExtra("location", user.getLocation());
                     intent.putExtra("mobile", user.getMobile());
                     intent.putExtra("status", user.getStatus());
+                    intent.putExtra("availibility_time_to", user.getAvailibility_time_to());
+                    intent.putExtra("availibility_time_from", user.getAvailibility_time_from());
                     itemView.getContext().startActivity(intent);
                 }
             });

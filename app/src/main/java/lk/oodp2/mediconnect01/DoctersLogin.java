@@ -104,17 +104,32 @@ public class DoctersLogin extends AppCompatActivity {
 
                                     Doctors_DTO doctor_dto = response_dto.getContent();
 
-                                    SharedPreferences sharedPreferences = getSharedPreferences("lk.oodp2.mediconnect01.doctor", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    String doctorJson = gson.toJson(doctor_dto);
-                                    editor.putString("doctor", doctorJson);
-                                    editor.apply();
+                                    JsonObject responseJson = gson.fromJson(responseText, JsonObject.class);
 
-                                    Intent intent = new Intent(DoctersLogin.this, DoctorHomeActivity.class);
-                                    intent.putExtra("DoctorId", doctor_dto.getId());
-                                    intent.putExtra("Doctorname", "Dr. "+doctor_dto.getFirst_name()+" "+doctor_dto.getLast_name());
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                    startActivity(intent);
+                                    if (responseJson.get("message").getAsString().equals("Waiting For Aprove Details")){
+
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(DoctersLogin.this, responseJson.get("message").getAsString(), Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+
+                                    }else{
+                                        SharedPreferences sharedPreferences = getSharedPreferences("lk.oodp2.mediconnect01.doctor", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        String doctorJson = gson.toJson(doctor_dto);
+                                        editor.putString("doctor", doctorJson);
+                                        editor.apply();
+
+                                        Intent intent = new Intent(DoctersLogin.this, DoctorHomeActivity.class);
+                                        intent.putExtra("DoctorId", doctor_dto.getId());
+                                        intent.putExtra("Doctorname", "Dr. "+doctor_dto.getFirst_name()+" "+doctor_dto.getLast_name());
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                        startActivity(intent);
+                                    }
+
+
 
                                 }else{
 

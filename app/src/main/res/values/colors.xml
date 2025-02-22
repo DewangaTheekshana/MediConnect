@@ -8,4 +8,11 @@
     <color name="background2">#6ADBF9</color>
     <color name="status_online">#959595</color>
     <color name="status_offline">#79BF2B</color>
+
+    <color name="bar4">#008DFF</color>
+    <color name="bar3">#1A95FF</color>
+    <color name="bar2">#35A4FF</color>
+    <color name="bar1">#52B5FF</color>
+
+    <color name="hint">#A0A0A0</color>
 </resources>

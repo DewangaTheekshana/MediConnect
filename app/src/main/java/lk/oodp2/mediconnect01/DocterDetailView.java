@@ -26,6 +26,7 @@ public class DocterDetailView extends AppCompatActivity {
         setContentView(R.layout.activity_docter_detail_view);
 
         // Retrieve intent data
+        String doctor_id = getIntent().getStringExtra("doctor_id");
         String docterName = getIntent().getStringExtra("docterName");
         String docterCity = getIntent().getStringExtra("docterCity");
         String Price = getIntent().getStringExtra("Price");
@@ -35,8 +36,11 @@ public class DocterDetailView extends AppCompatActivity {
         String location = getIntent().getStringExtra("location");
         String mobile = getIntent().getStringExtra("mobile");
         String status = getIntent().getStringExtra("status");
+        String availibility_time_to = getIntent().getStringExtra("availibility_time_to");
+        String availibility_time_from = getIntent().getStringExtra("availibility_time_from");
 
         Log.i("MediConnectLogggggggggggggg", "status"+status);
+        Log.i("MediConnectLoggggggggo", doctor_id);
 
         // Find TextViews
         TextView textViewName = findViewById(R.id.textView23);
@@ -89,6 +93,18 @@ public class DocterDetailView extends AppCompatActivity {
 
         Button button15 = findViewById(R.id.button15);
         button15.setText("Book Appointment" + " : " + Price);
+        button15.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DocterDetailView.this, AppointmentBuyPage.class);
+                intent.putExtra("doctor_id", doctor_id);
+                intent.putExtra("docterName", docterName);
+                intent.putExtra("location", location);
+                intent.putExtra("Price", Price);
+                intent.putExtra("availibilityTime", availibility_time_to + " -- " + availibility_time_from);
+                startActivity(intent);
+            }
+        });
     }
 
     // Method to make a phone call

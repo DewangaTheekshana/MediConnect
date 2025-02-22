@@ -12,8 +12,10 @@ public class User {
     private String location;
     private String mobile;
     private String status;
+    private String availibility_time_to;
+    private String availibility_time_from;
 
-    public User(String docterId, String docterName, String docterCity, String price, String rate, String about, String experiance, String location, String mobile, String status) {
+    public User(String docterId, String docterName, String docterCity, String price, String rate, String about, String experiance, String location, String mobile, String status, String availibility_time_to, String availibility_time_from) {
         this.docterId = docterId;
         this.docterName = docterName;
         this.docterCity = docterCity;
@@ -24,6 +26,8 @@ public class User {
         this.location = location;
         this.mobile = mobile;
         this.status = status;
+        this.availibility_time_to = availibility_time_to;
+        this.availibility_time_from = availibility_time_from;
     }
 
     public String getDocterId() {
@@ -32,6 +36,22 @@ public class User {
 
     public void setDocterId(String docterId) {
         this.docterId = docterId;
+    }
+
+    public String getAvailibility_time_to() {
+        return availibility_time_to;
+    }
+
+    public void setAvailibility_time_to(String availibility_time_to) {
+        this.availibility_time_to = availibility_time_to;
+    }
+
+    public String getAvailibility_time_from() {
+        return availibility_time_from;
+    }
+
+    public void setAvailibility_time_from(String availibility_time_from) {
+        this.availibility_time_from = availibility_time_from;
     }
 
     public String getDocterName() {

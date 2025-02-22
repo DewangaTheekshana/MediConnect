@@ -89,8 +89,7 @@
                 android:id="@+id/edit_text10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLength="10" />
+                android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -139,8 +138,8 @@
                 android:id="@+id/edit_text8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text|textLongMessage"
-                android:maxLength="10" />
+                android:inputType="text"
+                android:singleLine="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

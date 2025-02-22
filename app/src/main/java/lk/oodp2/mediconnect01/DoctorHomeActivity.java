@@ -10,10 +10,13 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+
+import androidx.cardview.widget.CardView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,15 +30,27 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import lk.oodp2.mediconnect01.dto.Appointments_DTO;
@@ -44,6 +59,8 @@ import lk.oodp2.mediconnect01.dto.ResponseList_DTO;
 import lk.oodp2.mediconnect01.dto.User_DTO;
 import lk.oodp2.mediconnect01.model.AppointmentDocter;
 import lk.oodp2.mediconnect01.model.Appointments;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -65,6 +82,16 @@ public class DoctorHomeActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        CardView cardView1 = findViewById(R.id.cardView1);
+        cardView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(DoctorHomeActivity.this, DoctorProfile.class);
+                startActivity(intent);
+            }
         });
 
         Button button17 = findViewById(R.id.button17);
@@ -136,6 +163,82 @@ public class DoctorHomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url(BuildConfig.URL+"/AppointmentCountServlet")
+                        .build();
+
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        Log.i("MediConnectLogggg", "onResponse: "+response);
+                        if (response.isSuccessful()) {
+                            String jsonResponse = response.body().string();
+                            runOnUiThread(() -> updateBarChart(jsonResponse));
+                        }
+                    }
+                });
+
+            }
+        }).start();
+
+
+
+
+
+//        BarChart barChart1 = findViewById(R.id.barChart);
+//
+//        ArrayList<BarEntry> barEntryArrayList = new ArrayList<>();
+//        barEntryArrayList.add(new BarEntry(0,25));
+//        barEntryArrayList.add(new BarEntry(10,60));
+//        barEntryArrayList.add(new BarEntry(20,70));
+//        barEntryArrayList.add(new BarEntry(30,40));
+//
+//        BarDataSet barDataSet = new BarDataSet(barEntryArrayList, "Appointment Count");
+//
+//        ArrayList<Integer> colorArrayList = new ArrayList<>();
+//        colorArrayList.add(getColor(R.color.bar1));
+//        colorArrayList.add(getColor(R.color.bar2));
+//        colorArrayList.add(getColor(R.color.bar3));
+//        colorArrayList.add(getColor(R.color.bar4));
+//
+//        barDataSet.setColors(colorArrayList);
+//
+//        BarData barData = new BarData();
+//        barData.addDataSet(barDataSet);
+//
+//        barData.setBarWidth(8);
+//
+//        barChart1.setPinchZoom(false);
+//        barChart1.setScaleEnabled(false);
+//        barChart1.animateY(2000, Easing.EaseInCubic);
+//        barChart1.setDescription(null);
+//        barChart1.setFitBars(true);
+//
+//        barChart1.setData(barData);
+//
+//        ArrayList<LegendEntry> legendEntryArrayList = new ArrayList<>();
+//        legendEntryArrayList.add(new LegendEntry("02/25", Legend.LegendForm.CIRCLE, Float.NaN, Float.NaN, null, colorArrayList.get(0)));
+//        legendEntryArrayList.add(new LegendEntry("02/26", Legend.LegendForm.CIRCLE, Float.NaN, Float.NaN, null, colorArrayList.get(1)));
+//        legendEntryArrayList.add(new LegendEntry("02/27", Legend.LegendForm.CIRCLE, Float.NaN, Float.NaN, null, colorArrayList.get(2)));
+//        legendEntryArrayList.add(new LegendEntry("02/28", Legend.LegendForm.CIRCLE, Float.NaN, Float.NaN, null, colorArrayList.get(3)));
+//
+//        barChart1.getLegend().setCustom(legendEntryArrayList);
+//        barChart1.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+//        barChart1.getLegend().setXEntrySpace(50);
+//
+//        barChart1.invalidate();
+
+
+
         Gson gson = new Gson();
 
         SharedPreferences sharedPreferences = getSharedPreferences("lk.oodp2.mediconnect01.doctor", MODE_PRIVATE);
@@ -203,6 +306,42 @@ public class DoctorHomeActivity extends AppCompatActivity {
         }).start();
     }
 
+    private void updateBarChart(String jsonResponse) {
+
+        BarChart barChart1 = findViewById(R.id.barChart);
+
+        try {
+            JSONObject jsonObject = new JSONObject(jsonResponse);
+            ArrayList<BarEntry> barEntries = new ArrayList<>();
+            ArrayList<LegendEntry> legendEntries = new ArrayList<>();
+            ArrayList<Integer> colorArrayList = new ArrayList<>(Arrays.asList(
+                    getColor(R.color.bar1), getColor(R.color.bar2),
+                    getColor(R.color.bar3), getColor(R.color.bar4)
+            ));
+
+            int i = 0;
+            for (Iterator<String> it = jsonObject.keys(); it.hasNext();) {
+                String date = it.next();
+                int count = jsonObject.getInt(date);
+                barEntries.add(new BarEntry(i * 10, count));
+
+                legendEntries.add(new LegendEntry(date, Legend.LegendForm.CIRCLE, Float.NaN, Float.NaN, null, colorArrayList.get(i % colorArrayList.size())));
+                i++;
+            }
+
+            BarDataSet barDataSet = new BarDataSet(barEntries, "Appointment Count");
+            barDataSet.setColors(colorArrayList);
+            BarData barData = new BarData(barDataSet);
+            barData.setBarWidth(8);
+
+            barChart1.setData(barData);
+            barChart1.getLegend().setCustom(legendEntries);
+            barChart1.invalidate();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     class Adapter4 extends RecyclerView.Adapter<Adapter4.ViewHolder> {
         private final ArrayList<AppointmentDocter> appointmentList;
 
