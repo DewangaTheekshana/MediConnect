@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -30,6 +32,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -38,15 +41,20 @@ import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +81,11 @@ public class DoctorHomeActivity extends AppCompatActivity {
 
     private Adapter4 userAdapter;
 
+    private PieChart pieChart;
+
+
+    private ImageView profileImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +96,14 @@ public class DoctorHomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        profileImageView = findViewById(R.id.profileimage);
+
+        // Doctor email (change this dynamically based on logged-in user)
+        String doctorEmail = "susantha10@gmail.com";
+
+        // Fetch and display the profile image
+        fetchDoctorImage(doctorEmail);
 
         CardView cardView1 = findViewById(R.id.cardView1);
         cardView1.setOnClickListener(new View.OnClickListener() {
@@ -159,83 +180,60 @@ public class DoctorHomeActivity extends AppCompatActivity {
 
     }
 
+    private void fetchDoctorImage(String email) {
+        OkHttpClient client = new OkHttpClient();
+
+        // Build the request
+        Request request = new Request.Builder()
+                .url(BuildConfig.URL + "/getDoctorImage"+"?email=" + email)  // Send doctor's email as a parameter
+                .build();
+
+        // Execute the request asynchronously
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("DoctorProfile", "Image fetch failed: " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful() && response.body() != null) {
+                    InputStream inputStream = response.body().byteStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+                    // Update UI on the main thread
+                    runOnUiThread(() -> profileImageView.setImageBitmap(bitmap));
+                } else {
+                    Log.e("DoctorProfile", "Server error: " + response.code());
+                }
+            }
+        });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url(BuildConfig.URL+"/AppointmentCountServlet")
-                        .build();
-
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        Log.i("MediConnectLogggg", "onResponse: "+response);
-                        if (response.isSuccessful()) {
-                            String jsonResponse = response.body().string();
-                            runOnUiThread(() -> updateBarChart(jsonResponse));
-                        }
-                    }
-                });
-
-            }
-        }).start();
-
-
-
-
-
-//        BarChart barChart1 = findViewById(R.id.barChart);
+//        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+//        pieEntries.add(new PieEntry(2, "Pending"));
+//        pieEntries.add(new PieEntry(3, "Conform"));
 //
-//        ArrayList<BarEntry> barEntryArrayList = new ArrayList<>();
-//        barEntryArrayList.add(new BarEntry(0,25));
-//        barEntryArrayList.add(new BarEntry(10,60));
-//        barEntryArrayList.add(new BarEntry(20,70));
-//        barEntryArrayList.add(new BarEntry(30,40));
+//        PieDataSet pieDataSet = new PieDataSet(pieEntries, "Appointments Status");
 //
-//        BarDataSet barDataSet = new BarDataSet(barEntryArrayList, "Appointment Count");
+//        ArrayList<Integer> colorsArrayList = new ArrayList<>();
+//        colorsArrayList.add(getColor(R.color.bar1));
+//        colorsArrayList.add(getColor(R.color.bar2));
+//        pieDataSet.setColors(colorsArrayList);
 //
-//        ArrayList<Integer> colorArrayList = new ArrayList<>();
-//        colorArrayList.add(getColor(R.color.bar1));
-//        colorArrayList.add(getColor(R.color.bar2));
-//        colorArrayList.add(getColor(R.color.bar3));
-//        colorArrayList.add(getColor(R.color.bar4));
+//        PieData pieData = new PieData(pieDataSet);
+//        pieChart.setData(pieData);
+//        pieChart.setEntryLabelTextSize(12);
+//        pieChart.setEntryLabelColor(Color.BLACK);
 //
-//        barDataSet.setColors(colorArrayList);
+//        pieChart.animateY(2000, Easing.EaseInOutCubic);
 //
-//        BarData barData = new BarData();
-//        barData.addDataSet(barDataSet);
 //
-//        barData.setBarWidth(8);
-//
-//        barChart1.setPinchZoom(false);
-//        barChart1.setScaleEnabled(false);
-//        barChart1.animateY(2000, Easing.EaseInCubic);
-//        barChart1.setDescription(null);
-//        barChart1.setFitBars(true);
-//
-//        barChart1.setData(barData);
-//
-//        ArrayList<LegendEntry> legendEntryArrayList = new ArrayList<>();
-//        legendEntryArrayList.add(new LegendEntry("02/25", Legend.LegendForm.CIRCLE, Float.NaN, Float.NaN, null, colorArrayList.get(0)));
-//        legendEntryArrayList.add(new LegendEntry("02/26", Legend.LegendForm.CIRCLE, Float.NaN, Float.NaN, null, colorArrayList.get(1)));
-//        legendEntryArrayList.add(new LegendEntry("02/27", Legend.LegendForm.CIRCLE, Float.NaN, Float.NaN, null, colorArrayList.get(2)));
-//        legendEntryArrayList.add(new LegendEntry("02/28", Legend.LegendForm.CIRCLE, Float.NaN, Float.NaN, null, colorArrayList.get(3)));
-//
-//        barChart1.getLegend().setCustom(legendEntryArrayList);
-//        barChart1.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-//        barChart1.getLegend().setXEntrySpace(50);
-//
-//        barChart1.invalidate();
+//        pieChart.invalidate();
 
 
 
@@ -302,44 +300,100 @@ public class DoctorHomeActivity extends AppCompatActivity {
                 } else {
                     Log.i("MediConnectLoga", "No user data found in SharedPreferences");
                 }
+
+                pieChart = findViewById(R.id.PieChart);
+                fetchAppointmentStatus();
             }
         }).start();
     }
 
-    private void updateBarChart(String jsonResponse) {
+    private void fetchAppointmentStatus() {
 
-        BarChart barChart1 = findViewById(R.id.barChart);
+        Gson gson = new Gson();
 
-        try {
-            JSONObject jsonObject = new JSONObject(jsonResponse);
-            ArrayList<BarEntry> barEntries = new ArrayList<>();
-            ArrayList<LegendEntry> legendEntries = new ArrayList<>();
-            ArrayList<Integer> colorArrayList = new ArrayList<>(Arrays.asList(
-                    getColor(R.color.bar1), getColor(R.color.bar2),
-                    getColor(R.color.bar3), getColor(R.color.bar4)
-            ));
+        SharedPreferences sharedPreferences = getSharedPreferences("lk.oodp2.mediconnect01.doctor", MODE_PRIVATE);
+        String userJson = sharedPreferences.getString("doctor", null); // Retrieve JSON string
 
-            int i = 0;
-            for (Iterator<String> it = jsonObject.keys(); it.hasNext();) {
-                String date = it.next();
-                int count = jsonObject.getInt(date);
-                barEntries.add(new BarEntry(i * 10, count));
+        Doctors_DTO doctors_dto2 = gson.fromJson(userJson, Doctors_DTO.class); // Convert JSON to object
 
-                legendEntries.add(new LegendEntry(date, Legend.LegendForm.CIRCLE, Float.NaN, Float.NaN, null, colorArrayList.get(i % colorArrayList.size())));
-                i++;
+        Log.i("fetchAppointmentStatus", "fetchAppointmentStatus: "+doctors_dto2.getId());
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(BuildConfig.URL + "/DoctorAppointmentsStatusServlet?doctor_id="+doctors_dto2.getId())
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("API_ERROR", "Request Failed: " + e.getMessage());
             }
 
-            BarDataSet barDataSet = new BarDataSet(barEntries, "Appointment Count");
-            barDataSet.setColors(colorArrayList);
-            BarData barData = new BarData(barDataSet);
-            barData.setBarWidth(8);
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String jsonData = response.body().string();
+                    Log.i("fetchAppointmentStatus", "onResponse: "+jsonData);
+                    runOnUiThread(() -> updatePieChart(jsonData));
+                } else {
+                    Log.e("API_ERROR", "Response Failed: " + response.code());
+                }
+            }
+        });
+    }
 
-            barChart1.setData(barData);
-            barChart1.getLegend().setCustom(legendEntries);
-            barChart1.invalidate();
+    private void updatePieChart(String jsonData) {
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+        int pendingCount = 0;
+        int confirmedCount = 0;
+
+        try {
+            JSONObject jsonObject = new JSONObject(jsonData);
+            JSONArray appointmentsArray = jsonObject.getJSONArray("appointments");
+
+            for (int i = 0; i < appointmentsArray.length(); i++) {
+                JSONObject appointment = appointmentsArray.getJSONObject(i);
+
+                // Ensure both "status" and "count" exist
+                if (appointment.has("status") && appointment.has("count")) {
+                    String status = appointment.getString("status").trim();
+                    int count = appointment.getInt("count");
+
+                    // Adjust the counts based on the status
+                    if (status.equals("0")) {
+                        pendingCount += count;  // Add count to pendingCount
+                    } else if (status.equals("1")) {
+                        confirmedCount += count;  // Add count to confirmedCount
+                    }
+                }
+            }
+
+            Log.i("fetchAppointmentStatus", "updatePieChart: "+ pendingCount);
+            Log.i("fetchAppointmentStatus", "updatePieChart2: "+ confirmedCount);
+
+            ArrayList<PieEntry> pieEntries = new ArrayList<>();
+            pieEntries.add(new PieEntry(pendingCount, "Pending"));
+            pieEntries.add(new PieEntry(confirmedCount, "Confirmed"));
+
+            PieDataSet pieDataSet = new PieDataSet(pieEntries, "Appointments Status");
+
+            ArrayList<Integer> colorsArrayList = new ArrayList<>();
+            colorsArrayList.add(getColor(R.color.bar1));
+            colorsArrayList.add(getColor(R.color.bar2));
+            pieDataSet.setColors(colorsArrayList);
+
+            PieData pieData = new PieData(pieDataSet);
+            pieChart.setData(pieData);
+            pieChart.setEntryLabelTextSize(12);
+            pieChart.setEntryLabelColor(Color.BLACK);
+
+            pieChart.animateY(2000, Easing.EaseInOutCubic);
+            pieChart.invalidate();
+
+        } catch (Exception e) {
+            Log.e("JSON_ERROR", "Error parsing JSON: " + e.getMessage());
         }
     }
     class Adapter4 extends RecyclerView.Adapter<Adapter4.ViewHolder> {

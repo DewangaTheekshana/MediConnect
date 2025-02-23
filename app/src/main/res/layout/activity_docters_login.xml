@@ -137,7 +137,6 @@
             android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:inputType="text|textPassword"
-            android:maxLength="5"
             android:singleLine="true"
             android:textColorHint="#546E7A" />
 

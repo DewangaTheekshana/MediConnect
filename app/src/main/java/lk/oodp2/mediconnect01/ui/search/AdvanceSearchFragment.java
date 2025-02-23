@@ -1,9 +1,12 @@
 package lk.oodp2.mediconnect01.ui.search;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -75,44 +78,12 @@ public class AdvanceSearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_advance_search, container, false);
-                new Thread(new Runnable() {
-            @Override
-            public void run() {
 
-                Gson gson = new Gson();
-                OkHttpClient okHttpClient = new OkHttpClient();
-
-                Request request = new Request.Builder()
-                        .url(BuildConfig.URL + "/CityLoad")
-                        .build();
-
-                try {
-                    Response response = okHttpClient.newCall(request).execute();
-                    String responseText = response.body().string();
-                    Log.i("MediConnectLogggggggggggggg", responseText);
-                    Type responseType2 = new TypeToken<ResponseList_DTO<DoctorCity_DTO>>() {
-                    }.getType();
-                    ResponseList_DTO<DoctorCity_DTO> response_dto = gson.fromJson(responseText, responseType2);
-
-                    if (response_dto.getSuccess()) {
-                        List<DoctorCity_DTO> city = response_dto.getContent();
-                        getActivity().runOnUiThread(() -> {
-                            arrayList.clear();
-                            arrayList.add(new City(0, "All City"));
-                            for (DoctorCity_DTO citys : city) {
-                                arrayList.add(new City(citys.getId(), citys.getCity()));
-                                Log.i("MediConnectLogggggggggggggg", " " + citys.getCity());
-                                Log.i("MediConnectLogggggggggggggg", " " + citys.getId());
-                            }
-                            Log.i("MediConnectLogggggggggggggg", " " + arrayList);
-                        });
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }).start();
+        if (isNetworkAvailable()){
+            loadDocters();
+        }else {
+            Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
 
         editTextSearch = view.findViewById(R.id.editTextText2);
         textview = view.findViewById(R.id.testView);
@@ -261,6 +232,54 @@ public class AdvanceSearchFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private boolean isNetworkAvailable() {
+        // Implement network check here
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private void loadDocters(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Gson gson = new Gson();
+                OkHttpClient okHttpClient = new OkHttpClient();
+
+                Request request = new Request.Builder()
+                        .url(BuildConfig.URL + "/CityLoad")
+                        .build();
+
+                try {
+                    Response response = okHttpClient.newCall(request).execute();
+                    String responseText = response.body().string();
+                    Log.i("MediConnectLogggggggggggggg", responseText);
+                    Type responseType2 = new TypeToken<ResponseList_DTO<DoctorCity_DTO>>() {
+                    }.getType();
+                    ResponseList_DTO<DoctorCity_DTO> response_dto = gson.fromJson(responseText, responseType2);
+
+                    if (response_dto.getSuccess()) {
+                        List<DoctorCity_DTO> city = response_dto.getContent();
+                        getActivity().runOnUiThread(() -> {
+                            arrayList.clear();
+                            arrayList.add(new City(0, "All City"));
+                            for (DoctorCity_DTO citys : city) {
+                                arrayList.add(new City(citys.getId(), citys.getCity()));
+                                Log.i("MediConnectLogggggggggggggg", " " + citys.getCity());
+                                Log.i("MediConnectLogggggggggggggg", " " + citys.getId());
+                            }
+                            Log.i("MediConnectLogggggggggggggg", " " + arrayList);
+                        });
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
     }
 
     private void loadAllDoctors() {

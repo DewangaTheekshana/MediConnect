@@ -101,7 +101,7 @@ public class DocterDetailView extends AppCompatActivity {
                 intent.putExtra("docterName", docterName);
                 intent.putExtra("location", location);
                 intent.putExtra("Price", Price);
-                intent.putExtra("availibilityTime", availibility_time_to + " -- " + availibility_time_from);
+                intent.putExtra("availibilityTime", availibility_time_from + " -- " + availibility_time_to);
                 startActivity(intent);
             }
         });

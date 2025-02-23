@@ -44,6 +44,22 @@ public class DoctorProfile extends AppCompatActivity {
             return insets;
         });
 
+        TextView textView70 = findViewById(R.id.textView70);
+        textView70.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = getSharedPreferences("lk.oodp2.mediconnect01.doctor", Context.MODE_PRIVATE).edit();
+                editor.clear(); // Clear all stored preferences
+                editor.apply();
+
+                // Redirect to login activity
+                Intent intent = new Intent(DoctorProfile.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+
+
         EditText FirstName = findViewById(R.id.edit_text1);
         EditText LastName = findViewById(R.id.edit_text2);
         EditText Password = findViewById(R.id.edit_text3);

@@ -1,7 +1,10 @@
 package lk.oodp2.mediconnect01.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,6 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -91,12 +96,28 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    private boolean isNetworkAvailable() {
+        // Implement network check here
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
 
         Log.i("MediConnectLogggggggggggggg", "onResume");
 
+        if (isNetworkAvailable()) {
+            loadHomeDocters();
+        } else {
+            Toast.makeText(getContext(), "No internet connection", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void loadHomeDocters(){
         RecyclerView recyclerView1 = getActivity().findViewById(R.id.recyclerView1);
         recyclerView1.setLayoutManager(new LinearLayoutManager(getContext()));
         userAdapter = new Adapter1(docterList);
@@ -133,7 +154,6 @@ public class HomeFragment extends Fragment {
                 e.printStackTrace();
             }
         }).start();
-
     }
 
     private void SearchDoctors(String query) {

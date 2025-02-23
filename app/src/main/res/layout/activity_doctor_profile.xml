@@ -321,6 +321,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/filledTextField12" />
+
+        <TextView
+            android:id="@+id/textView70"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Log Out"
+            android:textColor="@color/Doctors_Button"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/button18"
+            app:layout_constraintStart_toStartOf="@+id/button18"
+            app:layout_constraintTop_toBottomOf="@+id/button18" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>
