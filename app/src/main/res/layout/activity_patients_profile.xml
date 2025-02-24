@@ -29,9 +29,10 @@
             android:translationZ="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/button9"
@@ -52,35 +53,6 @@
             app:layout_constraintTop_toBottomOf="@+id/filledTextField5" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filledTextField1"
-
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginEnd="24dp"
-            android:hint="@string/text9"
-            android:translationZ="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView39">
-
-            <!--this is the actual edit text which takes the input-->
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:inputType="text|textWebEmailAddress"
-                android:singleLine="true"
-                android:textColorHint="#546E7A" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/filledTextField2"
 
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -90,9 +62,9 @@
             android:layout_marginTop="16dp"
             android:hint="@string/text7"
             android:translationZ="6dp"
-            app:layout_constraintEnd_toEndOf="@+id/filledTextField1"
-            app:layout_constraintStart_toStartOf="@+id/filledTextField1"
-            app:layout_constraintTop_toBottomOf="@+id/filledTextField1">
+            app:layout_constraintEnd_toEndOf="@+id/textView71"
+            app:layout_constraintStart_toStartOf="@+id/textView71"
+            app:layout_constraintTop_toBottomOf="@+id/textView71">
 
             <!--this is the actual edit text which takes the input-->
             <com.google.android.material.textfield.TextInputEditText
@@ -220,6 +192,18 @@
             app:layout_constraintEnd_toEndOf="@+id/button9"
             app:layout_constraintStart_toStartOf="@+id/button9"
             app:layout_constraintTop_toBottomOf="@+id/button9" />
+
+        <TextView
+            android:id="@+id/textView71"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="116dp"
+            android:layout_marginEnd="24dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView39" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

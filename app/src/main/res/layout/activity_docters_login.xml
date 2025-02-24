@@ -88,33 +88,6 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/filledTextField2"
-
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="@string/text23"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filledTextField1">
-
-        <!--this is the actual edit text which takes the input-->
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:inputType="number"
-            android:singleLine="true"
-            android:textColorHint="#546E7A" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/filledTextField3"
 
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -122,13 +95,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/text10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filledTextField2">
+        app:layout_constraintTop_toBottomOf="@+id/filledTextField1">
 
         <!--this is the actual edit text which takes the input-->
         <com.google.android.material.textfield.TextInputEditText
@@ -141,18 +114,6 @@
             android:textColorHint="#546E7A" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="@color/Patients_Button"
-        android:text="@string/text24"
-        app:cornerRadius="@dimen/cardview_default_radius"
-        app:layout_constraintBottom_toBottomOf="@+id/filledTextField2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/filledTextField2" />
 
     <Button
         android:id="@+id/button6"

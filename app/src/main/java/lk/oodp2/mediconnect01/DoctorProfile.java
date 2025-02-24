@@ -209,7 +209,7 @@ public class DoctorProfile extends AppCompatActivity {
                     JsonObject responseJson = gson.fromJson(responseText, JsonObject.class);
                     String conternt = responseJson.get("message").getAsString();
 
-                    Log.i("MediConnectLogggggggggggggg", "Fuck"+conternt);
+                    Log.i("MediConnectLogggggggggggggg", " "+conternt);
 
                     edit_text12.setText(conternt);
 
