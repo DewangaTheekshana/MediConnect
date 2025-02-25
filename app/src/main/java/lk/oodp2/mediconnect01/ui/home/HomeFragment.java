@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                SearchDoctors(s.toString());
+//                SearchDoctors(s.toString());
             }
 
             @Override
@@ -156,15 +156,15 @@ public class HomeFragment extends Fragment {
         }).start();
     }
 
-    private void SearchDoctors(String query) {
-        ArrayList<User> searchList = new ArrayList<>();
-        for (User doctor : docterList) {
-            if (doctor.getDocterCity().toLowerCase().contains(query.toLowerCase())) {
-                searchList.add(doctor);
-            }
-        }
-        userAdapter.updateList(searchList);
-    }
+//    private void SearchDoctors(String query) {
+//        ArrayList<User> searchList = new ArrayList<>();
+//        for (User doctor : docterList) {
+//            if (doctor.getDocterCity().toLowerCase().contains(query.toLowerCase())) {
+//                searchList.add(doctor);
+//            }
+//        }
+//        userAdapter.updateList(searchList);
+//    }
 
 
     @Override

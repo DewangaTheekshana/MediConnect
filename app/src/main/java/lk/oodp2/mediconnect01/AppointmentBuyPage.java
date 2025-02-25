@@ -18,13 +18,23 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -36,7 +46,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import lk.oodp2.mediconnect01.dto.Doctors_DTO;
@@ -55,6 +67,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class AppointmentBuyPage extends AppCompatActivity {
+
+    Random random = new Random();
+    int randomNum = 100000 + random.nextInt(900000); // Generates a 6-digit random number
+    String AppointmentId = "ORD"+randomNum;
 
     private TextView txtSelectedDate;
     private TextView btnSelectDate;
@@ -80,7 +96,9 @@ public class AppointmentBuyPage extends AppCompatActivity {
                             PHResponse<StatusResponse> response = (PHResponse<StatusResponse>) serializable;
                             String msg = response.isSuccess() ? "Payment completed: " + response.getData() : "Payment failed: "+response;
                             Log.d("MediConnectLogggggggggggggg", msg);
+                            firebaseInsert();
                             InsertAppointment();
+
                         }
                     }
                 }else if (result.getResultCode() == Activity.RESULT_CANCELED){
@@ -198,6 +216,64 @@ public class AppointmentBuyPage extends AppCompatActivity {
                 }
             }
         });
+
+    }
+
+
+
+    public void  firebaseInsert(){
+
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getSharedPreferences("lk.oodp2.mediconnect01.user", MODE_PRIVATE);
+        String userJson = sharedPreferences.getString("user", null); // Retrieve JSON string
+
+        User_DTO user_dto1 = gson.fromJson(userJson, User_DTO.class); // Convert JSON to object
+
+
+        HashMap<String,Object> document = new HashMap<>();
+        document.put("user",String.valueOf(user_dto1.getId()));
+        document.put("appointment_id", AppointmentId);
+        document.put("price",Price);
+        document.put("user_name", user_dto1.getFirst_name()+" "+user_dto1.getLast_name());
+
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        firestore.collection("appoimentadd").add(document)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.i("AppointmentNotification", "onSuccess");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("AppointmentNotification", "error");
+                    }
+                });
+
+        firestore.collection("appoimentadd")
+                .whereEqualTo("user",String.valueOf(user_dto1.getId()))
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.e("AppointmentNotification", "Listen failed.", error);
+                            return;
+                        }
+
+                        if (snapshots != null) {
+                            for (DocumentChange dc : snapshots.getDocumentChanges()) {
+
+                                if (dc.getType().equals(DocumentChange.Type.ADDED)){
+                                    Log.d("AppointmentNotification", "notifed ");
+//                                    notification();
+                                }
+
+                            }
+                        }
+                    }
+                });
 
     }
 

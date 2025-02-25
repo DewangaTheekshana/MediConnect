@@ -1,7 +1,6 @@
 package lk.oodp2.mediconnect01.ui.Appointments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -28,26 +27,26 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import lk.oodp2.mediconnect01.BuildConfig;
-import lk.oodp2.mediconnect01.DocterDetailView;
 import lk.oodp2.mediconnect01.R;
 import lk.oodp2.mediconnect01.SqLite.DatabaseHelper;
 import lk.oodp2.mediconnect01.dto.Appointments_DTO;
-import lk.oodp2.mediconnect01.dto.Clinics_DTO;
 import lk.oodp2.mediconnect01.dto.ResponseList_DTO;
 import lk.oodp2.mediconnect01.dto.User_DTO;
 import lk.oodp2.mediconnect01.model.Appointments;
-import lk.oodp2.mediconnect01.model.User;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-
 public class AppointmentsFragment extends Fragment {
+
+
 
     private ArrayList<Appointments> appointmentList = new ArrayList<>();
     private ArrayList<Appointments> appointmentHistoryList = new ArrayList<>();
@@ -72,6 +71,9 @@ public class AppointmentsFragment extends Fragment {
 
         return view;
     }
+
+
+
 
     private boolean isNetworkAvailable() {
         // Implement network check here
