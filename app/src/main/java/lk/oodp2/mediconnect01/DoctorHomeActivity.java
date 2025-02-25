@@ -83,6 +83,7 @@ public class DoctorHomeActivity extends AppCompatActivity {
 
     private PieChart pieChart;
 
+    private static final String BASE_URL = "http://192.168.78.146:8080/MediConnect"; // Use this for Emulator
 
     private ImageView profileImageView;
 
@@ -100,7 +101,15 @@ public class DoctorHomeActivity extends AppCompatActivity {
         profileImageView = findViewById(R.id.profileimage);
 
         // Doctor email (change this dynamically based on logged-in user)
-        String doctorEmail = "susantha10@gmail.com";
+
+        Gson gson = new Gson();
+
+        SharedPreferences sharedPreferences1 = getSharedPreferences("lk.oodp2.mediconnect01.doctor", MODE_PRIVATE);
+        String userJson = sharedPreferences1.getString("doctor", null); // Retrieve JSON string
+
+        Doctors_DTO doctors_dto3 = gson.fromJson(userJson, Doctors_DTO.class); // Convert JSON to object
+
+        String doctorEmail = doctors_dto3.getEmail();
 
         // Fetch and display the profile image
         fetchDoctorImage(doctorEmail);
@@ -183,12 +192,13 @@ public class DoctorHomeActivity extends AppCompatActivity {
     private void fetchDoctorImage(String email) {
         OkHttpClient client = new OkHttpClient();
 
-        // Build the request
+        // ✅ Now directly fetching the image file, not JSON
+        String url = BASE_URL + "/getDoctorImage?email=" + email;
+
         Request request = new Request.Builder()
-                .url(BuildConfig.URL + "/getDoctorImage"+"?email=" + email)  // Send doctor's email as a parameter
+                .url(url)
                 .build();
 
-        // Execute the request asynchronously
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -201,7 +211,7 @@ public class DoctorHomeActivity extends AppCompatActivity {
                     InputStream inputStream = response.body().byteStream();
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
-                    // Update UI on the main thread
+                    // ✅ Update UI on the main thread
                     runOnUiThread(() -> profileImageView.setImageBitmap(bitmap));
                 } else {
                     Log.e("DoctorProfile", "Server error: " + response.code());
@@ -209,6 +219,8 @@ public class DoctorHomeActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     @Override
     protected void onResume() {
