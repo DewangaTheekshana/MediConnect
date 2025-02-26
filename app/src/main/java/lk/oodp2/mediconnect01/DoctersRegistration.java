@@ -1,6 +1,7 @@
 package lk.oodp2.mediconnect01;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -154,6 +155,17 @@ public class DoctersRegistration extends AppCompatActivity {
         imageView3.setOnClickListener(view -> productImagePickerLauncher3.launch("image/*"));
 
         registerButton.setOnClickListener(v -> validateFields());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences2 = getSharedPreferences("lk.oodp2.mediconnect01.doctor", MODE_PRIVATE);
+        if (sharedPreferences2.contains("doctor")) {
+            Intent intent = new Intent(DoctersRegistration.this, DoctorHomeActivity.class);
+            startActivity(intent);
+            finish(); // Close this activity to prevent going back
+        }
     }
 
     private File getFileFromUri(Uri uri) {

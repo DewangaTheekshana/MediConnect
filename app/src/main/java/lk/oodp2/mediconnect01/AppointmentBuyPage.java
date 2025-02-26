@@ -2,6 +2,9 @@ package lk.oodp2.mediconnect01;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -70,7 +74,7 @@ public class AppointmentBuyPage extends AppCompatActivity {
 
     Random random = new Random();
     int randomNum = 100000 + random.nextInt(900000); // Generates a 6-digit random number
-    String AppointmentId = "ORD"+randomNum;
+    String AppointmentId = "ID"+randomNum;
 
     private TextView txtSelectedDate;
     private TextView btnSelectDate;
@@ -219,64 +223,6 @@ public class AppointmentBuyPage extends AppCompatActivity {
 
     }
 
-
-
-    public void  firebaseInsert(){
-
-        Gson gson = new Gson();
-        SharedPreferences sharedPreferences = getSharedPreferences("lk.oodp2.mediconnect01.user", MODE_PRIVATE);
-        String userJson = sharedPreferences.getString("user", null); // Retrieve JSON string
-
-        User_DTO user_dto1 = gson.fromJson(userJson, User_DTO.class); // Convert JSON to object
-
-
-        HashMap<String,Object> document = new HashMap<>();
-        document.put("user",String.valueOf(user_dto1.getId()));
-        document.put("appointment_id", AppointmentId);
-        document.put("price",Price);
-        document.put("user_name", user_dto1.getFirst_name()+" "+user_dto1.getLast_name());
-
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-
-        firestore.collection("appoimentadd").add(document)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.i("AppointmentNotification", "onSuccess");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.i("AppointmentNotification", "error");
-                    }
-                });
-
-        firestore.collection("appoimentadd")
-                .whereEqualTo("user",String.valueOf(user_dto1.getId()))
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException error) {
-                        if (error != null) {
-                            Log.e("AppointmentNotification", "Listen failed.", error);
-                            return;
-                        }
-
-                        if (snapshots != null) {
-                            for (DocumentChange dc : snapshots.getDocumentChanges()) {
-
-                                if (dc.getType().equals(DocumentChange.Type.ADDED)){
-                                    Log.d("AppointmentNotification", "notifed ");
-//                                    notification();
-                                }
-
-                            }
-                        }
-                    }
-                });
-
-    }
-
     private void InsertAppointment(){
 
         new Thread(new Runnable() {
@@ -403,4 +349,87 @@ public class AppointmentBuyPage extends AppCompatActivity {
 
         datePickerDialog.show();
     }
+
+    public void  firebaseInsert(){
+
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getSharedPreferences("lk.oodp2.mediconnect01.user", MODE_PRIVATE);
+        String userJson = sharedPreferences.getString("user", null); // Retrieve JSON string
+
+        User_DTO user_dto1 = gson.fromJson(userJson, User_DTO.class); // Convert JSON to object
+
+
+        HashMap<String,Object> document = new HashMap<>();
+        document.put("user",String.valueOf(user_dto1.getId()));
+        document.put("appointment_id", AppointmentId);
+        document.put("price",Price);
+        document.put("user_name", docterName);
+
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+        firestore.collection("appoimentadd").add(document)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.i("AppointmentNotification", "onSuccess");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("AppointmentNotification", "error");
+                    }
+                });
+
+        firestore.collection("appoimentadd")
+                .whereEqualTo("user",String.valueOf(user_dto1.getId()))
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException error) {
+                        if (error != null) {
+                            Log.e("AppointmentNotification", "Listen failed.", error);
+                            return;
+                        }
+
+                        if (snapshots != null) {
+                            for (DocumentChange dc : snapshots.getDocumentChanges()) {
+
+                                if (dc.getType().equals(DocumentChange.Type.ADDED)){
+                                    Log.d("AppointmentNotification", "notifed ");
+                                    notification();
+                                }
+
+                            }
+                        }
+                    }
+                });
+
+    }
+
+    public void notification() {
+        // Use getActivity() to access the context of the fragment's parent activity
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(
+                    "C1",
+                    "Channel 1",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+
+        Notification notification = new NotificationCompat.Builder(AppointmentBuyPage.this, "C1")
+                .setSmallIcon(R.drawable.notification)
+                .setContentTitle("Appointment Booking!")  // Title of the notification
+                .setContentText("Your Appointment #" + AppointmentId + " has been placed successfully. Total: RS." + Price)  // Content with Order ID and Total Amount
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)  // Priority
+                .setAutoCancel(true)
+                .setVibrate(new long[]{0, 500, 1000, 500})
+                .build();
+
+        notificationManager.notify(1, notification);
+    }
+
 }

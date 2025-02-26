@@ -433,6 +433,7 @@ class Adapter2 extends RecyclerView.Adapter<lk.oodp2.mediconnect01.ui.search.Ada
                 if (position != RecyclerView.NO_POSITION) {
                     User user = userList.get(position);
                     Intent intent = new Intent(itemView.getContext(), DocterDetailView.class);
+                    intent.putExtra("doctor_id", user.getDocterId());
                     intent.putExtra("docterName", user.getDocterName());
                     intent.putExtra("docterCity", user.getDocterCity());
                     intent.putExtra("Price", user.getPrice());

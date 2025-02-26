@@ -21,19 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("lk.oodp2.mediconnect01.user", MODE_PRIVATE);
-        if (sharedPreferences.contains("user")) {
-            Intent intent = new Intent(MainActivity.this, PatientsHome.class);
-            startActivity(intent);
-            finish(); // Close this activity to prevent going back
-        }
 
-        SharedPreferences sharedPreferences2 = getSharedPreferences("lk.oodp2.mediconnect01.doctor", MODE_PRIVATE);
-        if (sharedPreferences2.contains("doctor")) {
-            Intent intent = new Intent(MainActivity.this, DoctorHomeActivity.class);
-            startActivity(intent);
-            finish(); // Close this activity to prevent going back
-        }
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -70,6 +58,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("lk.oodp2.mediconnect01.user", MODE_PRIVATE);
+        if (sharedPreferences.contains("user")) {
+            Intent intent = new Intent(MainActivity.this, PatientsHome.class);
+            startActivity(intent);
+            finish(); // Close this activity to prevent going back
+        }
+
+        SharedPreferences sharedPreferences2 = getSharedPreferences("lk.oodp2.mediconnect01.doctor", MODE_PRIVATE);
+        if (sharedPreferences2.contains("doctor")) {
+            Intent intent = new Intent(MainActivity.this, DoctorHomeActivity.class);
+            startActivity(intent);
+            finish(); // Close this activity to prevent going back
+        }
+
         TextView textView4 = findViewById(R.id.textView4);
         TextView textView = findViewById(R.id.textView);
         TextView textView2 = findViewById(R.id.textView2);

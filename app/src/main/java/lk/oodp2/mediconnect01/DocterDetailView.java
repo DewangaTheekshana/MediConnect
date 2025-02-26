@@ -40,7 +40,7 @@ public class DocterDetailView extends AppCompatActivity {
         String availibility_time_from = getIntent().getStringExtra("availibility_time_from");
 
         Log.i("MediConnectLogggggggggggggg", "status"+status);
-        Log.i("MediConnectLoggggggggo", doctor_id);
+//        Log.i("MediConnectLoggggggggo", doctor_id);
 
         // Find TextViews
         TextView textViewName = findViewById(R.id.textView23);
@@ -76,6 +76,8 @@ public class DocterDetailView extends AppCompatActivity {
             cardView.setVisibility(View.GONE);
         }
 
+
+
         ImageView imageView11 = findViewById(R.id.imageView11);
         imageView11.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +107,17 @@ public class DocterDetailView extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button button16 = findViewById(R.id.button16);
+        button16.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DocterDetailView.this, DoctorMap.class);
+                intent.putExtra("doctor_id", doctor_id);
+                startActivity(intent);
+            }
+        });
+
     }
 
     // Method to make a phone call

@@ -10,6 +10,8 @@ public class Appointments_DTO implements Serializable{
 
     private String docters;
 
+    private String docters_id;
+
     private String location;
 
     private String appointment_date;
@@ -83,5 +85,13 @@ public class Appointments_DTO implements Serializable{
 
     public void setDoctor_Availability_id(String doctor_Availability_id) {
         this.doctor_Availability_id = doctor_Availability_id;
+    }
+
+    public String getDocters_id() {
+        return docters_id;
+    }
+
+    public void setDocters_id(String docters_id) {
+        this.docters_id = docters_id;
     }
 }

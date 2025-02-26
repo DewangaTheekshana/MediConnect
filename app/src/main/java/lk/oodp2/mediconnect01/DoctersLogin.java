@@ -156,4 +156,15 @@ public class DoctersLogin extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences2 = getSharedPreferences("lk.oodp2.mediconnect01.doctor", MODE_PRIVATE);
+        if (sharedPreferences2.contains("doctor")) {
+            Intent intent = new Intent(DoctersLogin.this, DoctorHomeActivity.class);
+            startActivity(intent);
+            finish(); // Close this activity to prevent going back
+        }
+    }
 }

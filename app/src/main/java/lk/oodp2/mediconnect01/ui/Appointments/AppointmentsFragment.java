@@ -1,6 +1,7 @@
 package lk.oodp2.mediconnect01.ui.Appointments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -117,7 +118,7 @@ public class AppointmentsFragment extends Fragment {
                         getActivity().runOnUiThread(() -> {
                             appointmentList.clear();
                             for (Appointments_DTO appointmentsDto : doctors) {
-                                Appointments appointments2 = new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time()), appointmentsDto.getStatus());
+                                Appointments appointments2 = new Appointments(String.valueOf(appointmentsDto.getId()),String.valueOf(appointmentsDto.getDocters_id()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time()), appointmentsDto.getStatus());
                                 databaseHelper.insertOrder(appointments2);
                                 appointmentList.add(appointments2);
                             }
@@ -179,7 +180,7 @@ public class AppointmentsFragment extends Fragment {
                             getActivity().runOnUiThread(() -> {
                                 appointmentHistoryList.clear();
                                 for (Appointments_DTO appointmentsDto : doctors) {
-                                    appointmentHistoryList.add(new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time()),appointmentsDto.getStatus()));
+                                    appointmentHistoryList.add(new Appointments(String.valueOf(appointmentsDto.getId()),String.valueOf(appointmentsDto.getDocters_id()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time()),appointmentsDto.getStatus()));
                                 }
                                 userAdapter4.notifyDataSetChanged();
                                 Log.i("MediConnectLogggggggggggggg", " "+appointmentHistoryList);
@@ -200,6 +201,8 @@ public class AppointmentsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+
 
         Log.i("MediConnectLogggggggggggggg", "onResume");
 
@@ -292,7 +295,9 @@ class Adapter3 extends RecyclerView.Adapter<Adapter3.appointmentViewHolder> {
             holder.buttonFindLocation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), appointments.getLocation(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(v.getContext(), lk.oodp2.mediconnect01.DoctorMap.class);
+                    intent.putExtra("doctor_id", appointments.getDoctorId());
+                    v.getContext().startActivity(intent);
                 }
             });
         }

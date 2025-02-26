@@ -210,6 +210,7 @@ class Adapter1 extends RecyclerView.Adapter<Adapter1.ViewHolder> {
                     intent.putExtra("location", user.getLocation());
                     intent.putExtra("mobile", user.getMobile());
                     intent.putExtra("status", user.getStatus());
+                    intent.putExtra("lng", user.getStatus());
                     intent.putExtra("availibility_time_to", user.getAvailibility_time_to());
                     intent.putExtra("availibility_time_from", user.getAvailibility_time_from());
                     itemView.getContext().startActivity(intent);
