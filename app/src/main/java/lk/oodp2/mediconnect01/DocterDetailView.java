@@ -27,6 +27,7 @@ public class DocterDetailView extends AppCompatActivity {
 
         // Retrieve intent data
         String doctor_id = getIntent().getStringExtra("doctor_id");
+        Log.i("MapNotify", "onCreat111111111e: doctor_id: " + doctor_id);
         String docterName = getIntent().getStringExtra("docterName");
         String docterCity = getIntent().getStringExtra("docterCity");
         String Price = getIntent().getStringExtra("Price");

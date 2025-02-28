@@ -1,9 +1,14 @@
 package lk.oodp2.mediconnect01.ui.Appointments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -57,6 +62,14 @@ public class AppointmentsFragment extends Fragment {
     private Adapter4 userAdapter4;
     DatabaseHelper databaseHelper;
 
+    private SensorManager sensorManager;
+    private Sensor sensor;
+    private SensorEventListener sensorEventListener;
+    private static final float SHAKE_THRESHOLD = 12.0f; // Adjust sensitivity
+    private long lastShakeTime = 0;
+
+    boolean isFlip;
+
     public AppointmentsFragment() {
         // Required empty public constructor
     }
@@ -68,6 +81,35 @@ public class AppointmentsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_appointments, container, false);
 
         databaseHelper = new DatabaseHelper(getContext());
+
+        sensorManager = (SensorManager) requireContext().getSystemService(Context.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        if (sensor != null) {
+            sensorEventListener = new SensorEventListener() {
+                @Override
+                public void onSensorChanged(SensorEvent event) {
+                    float x = event.values[0];
+                    float y = event.values[1];
+                    float z = event.values[2];
+
+                    double acceleration = Math.sqrt(x * x + y * y + z * z) - SensorManager.GRAVITY_EARTH;
+                    long currentTime = System.currentTimeMillis();
+
+                    if (acceleration > SHAKE_THRESHOLD && (currentTime - lastShakeTime) > 500) {
+                        Log.i("AppShake", "Phone Shaken!");
+                        lastShakeTime = currentTime;
+                        Toast.makeText(getContext(), "Shake detected!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onAccuracyChanged(Sensor sensor, int accuracy) {
+                }
+            };
+        } else {
+            Log.i("AppShake", "Accelerometer not available.");
+        }
 
 
         return view;
@@ -118,7 +160,7 @@ public class AppointmentsFragment extends Fragment {
                         getActivity().runOnUiThread(() -> {
                             appointmentList.clear();
                             for (Appointments_DTO appointmentsDto : doctors) {
-                                Appointments appointments2 = new Appointments(String.valueOf(appointmentsDto.getId()),String.valueOf(appointmentsDto.getDocters_id()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time()), appointmentsDto.getStatus());
+                                Appointments appointments2 = new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time()), appointmentsDto.getStatus());
                                 databaseHelper.insertOrder(appointments2);
                                 appointmentList.add(appointments2);
                             }
@@ -180,7 +222,7 @@ public class AppointmentsFragment extends Fragment {
                             getActivity().runOnUiThread(() -> {
                                 appointmentHistoryList.clear();
                                 for (Appointments_DTO appointmentsDto : doctors) {
-                                    appointmentHistoryList.add(new Appointments(String.valueOf(appointmentsDto.getId()),String.valueOf(appointmentsDto.getDocters_id()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time()),appointmentsDto.getStatus()));
+                                    appointmentHistoryList.add(new Appointments(String.valueOf(appointmentsDto.getId()), appointmentsDto.getDocters(), appointmentsDto.getLocation(),String.valueOf(appointmentsDto.getAppointment_date()),String.valueOf(appointmentsDto.getAppointment_time()),appointmentsDto.getStatus()));
                                 }
                                 userAdapter4.notifyDataSetChanged();
                                 Log.i("MediConnectLogggggggggggggg", " "+appointmentHistoryList);
@@ -295,9 +337,48 @@ class Adapter3 extends RecyclerView.Adapter<Adapter3.appointmentViewHolder> {
             holder.buttonFindLocation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), lk.oodp2.mediconnect01.DoctorMap.class);
-                    intent.putExtra("doctor_id", appointments.getDoctorId());
-                    v.getContext().startActivity(intent);
+
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Gson gson = new Gson();
+                            OkHttpClient okHttpClient = new OkHttpClient();
+
+                            JsonObject appointment = new JsonObject();
+                            appointment.addProperty("AppoitmentId", String.valueOf(appointments.getId()));
+
+                            RequestBody requestBody = RequestBody.create(gson.toJson(appointment), MediaType.get("application/json"));
+                            Request request = new Request.Builder()
+                                    .url(BuildConfig.URL + "/DocterIdGetAppointment")
+                                    .post(requestBody)
+                                    .build();
+                            try {
+                                Response response = okHttpClient.newCall(request).execute();
+                                String responseText = response.body().string();
+                                Log.i("MediConnectLoga", "History" + responseText);
+
+                                JsonObject responseJson = gson.fromJson(responseText, JsonObject.class);
+
+                                String message = responseJson.get("message").getAsString();
+
+                                Intent intent = new Intent(v.getContext(), lk.oodp2.mediconnect01.DoctorMap.class);
+                                intent.putExtra("doctor_id", message);
+                                v.getContext().startActivity(intent);
+
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }).start();
+
+
+//                    Intent intent = new Intent(v.getContext(), lk.oodp2.mediconnect01.DoctorMap.class);
+//                    intent.putExtra("doctor_id", appointments.getId());
+//                    v.getContext().startActivity(intent);
                 }
             });
         }

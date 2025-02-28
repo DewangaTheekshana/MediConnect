@@ -2,21 +2,19 @@ package lk.oodp2.mediconnect01.model;
 
 public class Appointments {
     private String id;
-    private String doctorId;
     private String doctorName;
     private String location;
     private String date;
     private String time;
     private String status;
 
-    public Appointments(String id, String doctorName, String location, String date, String time, String status, String doctorId) {
+    public Appointments(String id, String doctorName, String location, String date, String time, String status) {
         this.id = id;
         this.doctorName = doctorName;
         this.location = location;
         this.date = date;
         this.time = time;
         this.status = status;
-        this.doctorId = doctorId;
     }
 
     public String getId() {
@@ -67,11 +65,4 @@ public class Appointments {
         this.status = status;
     }
 
-    public String getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(String doctorId) {
-        this.doctorId = doctorId;
-    }
 }

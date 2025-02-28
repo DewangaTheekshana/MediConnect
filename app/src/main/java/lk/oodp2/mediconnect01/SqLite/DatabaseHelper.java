@@ -20,7 +20,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_ORDERS = "appointment";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_NAME = "name";
-    private static final String COLUMN_DOCTORID = "doctorId";
     private static final String COLUMN_DATE = "date";
     private static final String COLUMN_TIME = "time";
     private static final String COLUMN_LOCATION = "location";
@@ -83,8 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_DATE)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_TIME)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_STATUS)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_DOCTORID))
+                        cursor.getString(cursor.getColumnIndex(COLUMN_STATUS))
                 );
                 orderList.add(order);
             } while (cursor.moveToNext());

@@ -310,7 +310,9 @@ public class AdvanceSearchFragment extends Fragment {
                     docterList.clear();
                     if (response_dto.getSuccess()) {
                         List<Clinics_DTO> doctors = response_dto.getContent();
+
                         for (Clinics_DTO doctor : doctors) {
+
                             docterList.add(new User(
                                     String.valueOf(doctor.getDocters()),
                                     doctor.getFirst_name() + " " + doctor.getLast_name(),
