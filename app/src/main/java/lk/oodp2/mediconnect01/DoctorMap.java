@@ -79,32 +79,39 @@ public class DoctorMap extends AppCompatActivity {
                         longitude = Double.parseDouble(latLngArray[1]);
                         isLocationAvailable = true;
                     }
+
+                    runOnUiThread(() -> {
+
+                            // Load Google Map
+                            SupportMapFragment supportMapFragment = new SupportMapFragment();
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.add(R.id.fregmentMap, supportMapFragment);
+                            fragmentTransaction.commit();
+
+                            // Set up the map when ready
+                            supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                                public void onMapReady(@NonNull GoogleMap googleMap) {
+                                    Log.i("MapNotify", "Map is ready");
+
+                                    if (isLocationAvailable) {
+                                        LatLng orderLocation = new LatLng(latitude, longitude);
+                                        googleMap.addMarker(new MarkerOptions().position(orderLocation).title("Doctor's Location"));
+                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(orderLocation, 15));
+                                    } else {
+                                        Log.e("MapNotify", "Location data is not available");
+                                    }
+                                }
+                            });
+
+                    });
+
                 }
             } catch (IOException | NumberFormatException e) {
                 Log.e("MapNotify", "Error fetching map location: " + e.getMessage());
             }
         }).start();
 
-        // Load Google Map
-        SupportMapFragment supportMapFragment = new SupportMapFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fregmentMap, supportMapFragment);
-        fragmentTransaction.commit();
 
-        // Set up the map when ready
-        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-            public void onMapReady(@NonNull GoogleMap googleMap) {
-                Log.i("MapNotify", "Map is ready");
-
-                if (isLocationAvailable) {
-                    LatLng orderLocation = new LatLng(latitude, longitude);
-                    googleMap.addMarker(new MarkerOptions().position(orderLocation).title("Doctor's Location"));
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(orderLocation, 15));
-                } else {
-                    Log.e("MapNotify", "Location data is not available");
-                }
-            }
-        });
     }
 }

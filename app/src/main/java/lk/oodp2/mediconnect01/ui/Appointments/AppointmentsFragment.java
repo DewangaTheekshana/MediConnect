@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import lk.oodp2.mediconnect01.AppointmentUpdate;
 import lk.oodp2.mediconnect01.BuildConfig;
 import lk.oodp2.mediconnect01.R;
 import lk.oodp2.mediconnect01.SqLite.DatabaseHelper;
@@ -332,6 +333,19 @@ class Adapter3 extends RecyclerView.Adapter<Adapter3.appointmentViewHolder> {
         if (appointments.getStatus().equals("0")){
             holder.buttonFindLocation.setBackgroundColor(Color.parseColor("#f0950c"));
             holder.buttonFindLocation.setText("Pending");
+            holder.buttonFindLocation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), AppointmentUpdate.class);
+                    intent.putExtra("id", appointments.getId());
+                    intent.putExtra("DoctorName", appointments.getDoctorName());
+                    intent.putExtra("location", appointments.getLocation());
+                    intent.putExtra("date", appointments.getDate());
+                    intent.putExtra("time", appointments.getTime());
+                    intent.putExtra("status", appointments.getStatus());
+                    v.getContext().startActivity(intent);
+                }
+            });
         }else {
             holder.buttonFindLocation.setBackgroundColor(Color.parseColor("#3CA0DF"));
             holder.buttonFindLocation.setOnClickListener(new View.OnClickListener() {

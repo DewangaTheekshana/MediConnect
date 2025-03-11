@@ -15,7 +15,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String","URL", "\"http://192.168.99.146:8080/MediConnect\"")
+        buildConfigField("String","URL", "\"http://192.168.150.146:8080/MediConnect\"")
     }
 
     buildTypes {

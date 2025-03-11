@@ -18,6 +18,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Bundle;
+
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -70,8 +76,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class AppointmentBuyPage extends AppCompatActivity {
+public class AppointmentBuyPage extends AppCompatActivity implements SensorEventListener{
 
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private static final int SHAKE_THRESHOLD = 200;
+    private long lastUpdate;
+    private float lastX, lastY, lastZ;
     Random random = new Random();
     int randomNum = 100000 + random.nextInt(900000); // Generates a 6-digit random number
     String AppointmentId = "ID"+randomNum;
@@ -123,6 +134,10 @@ public class AppointmentBuyPage extends AppCompatActivity {
             return insets;
         });
 
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        if (sensorManager != null) {
+            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        }
 
         doctor_id = getIntent().getStringExtra("doctor_id");
         docterName = getIntent().getStringExtra("docterName");
@@ -223,6 +238,51 @@ public class AppointmentBuyPage extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (accelerometer != null) {
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            long currentTime = System.currentTimeMillis();
+            if ((currentTime - lastUpdate) > 100) {
+                long diffTime = currentTime - lastUpdate;
+                lastUpdate = currentTime;
+
+                float x = event.values[0];
+                float y = event.values[1];
+                float z = event.values[2];
+
+                float speed = Math.abs(x + y + z - lastX - lastY - lastZ) / diffTime * 10000;
+
+                if (speed > SHAKE_THRESHOLD) {
+                    // Shake detected, go back to the previous screen
+                    finish();
+                }
+
+                lastX = x;
+                lastY = y;
+                lastZ = z;
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
     private void InsertAppointment(){
 
         new Thread(new Runnable() {
@@ -317,11 +377,15 @@ public class AppointmentBuyPage extends AppCompatActivity {
                     @Override
                     public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
                         // Format time as HH:MM
-                        String formattedTime = String.format("%02d:%02d", selectedHour, selectedMinute);
+                        String formattedTime = String.format("%02d:%02d %s",
+                                (selectedHour == 0) ? 12 : (selectedHour > 12 ? selectedHour - 12 : selectedHour),
+                                selectedMinute,
+                                (selectedHour >= 12) ? "PM" : "AM"
+                        );
                         txtSelectedTime.setText(formattedTime);
                     }
                 },
-                hour, minute, true // true for 24-hour format, false for AM/PM format
+                hour, minute, false // true for 24-hour format, false for AM/PM format
         );
 
         timePickerDialog.show();

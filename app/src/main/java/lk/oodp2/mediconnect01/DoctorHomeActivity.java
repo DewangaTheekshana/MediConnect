@@ -83,7 +83,7 @@ public class DoctorHomeActivity extends AppCompatActivity {
 
     private PieChart pieChart;
 
-    private static final String BASE_URL = "http://192.168.99.146:8080/MediConnect"; // Use this for Emulator
+    private static final String BASE_URL = "http://192.168.150.146:8080/MediConnect"; // Use this for Emulator
 
     private ImageView profileImageView;
 

@@ -96,21 +96,32 @@ public class PatientsLogin extends AppCompatActivity {
                                 Log.i("MediConnectLogggggggggggggg", " "+response_dto.getMessage());
                                 Log.i("MediConnectLogggggggggggggg", " "+response_dto.getContent());
 
-
-
                                 if (response_dto.getSuccess()){
 
                                     User_DTO user_dto = response_dto.getContent();
 
-                                    SharedPreferences sharedPreferences = getSharedPreferences("lk.oodp2.mediconnect01.user", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    String userJson = gson.toJson(user_dto);
-                                    editor.putString("user", userJson);
-                                    editor.apply();
+                                    if (user_dto.getStatus().equals("1")){
 
-                                    Intent intent = new Intent(PatientsLogin.this, PatientsHome.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                    startActivity(intent);
+                                        SharedPreferences sharedPreferences = getSharedPreferences("lk.oodp2.mediconnect01.user", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        String userJson = gson.toJson(user_dto);
+                                        editor.putString("user", userJson);
+                                        editor.apply();
+
+                                        Intent intent = new Intent(PatientsLogin.this, PatientsHome.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                        startActivity(intent);
+
+                                    }else{
+
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(PatientsLogin.this, "this email inactive", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                    }
 
                                 }else{
 

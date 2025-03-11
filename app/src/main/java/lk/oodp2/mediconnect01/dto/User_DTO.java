@@ -16,6 +16,8 @@ public class User_DTO {
 
     private String profile_pic;
 
+    private String status;
+
 
     public int getId() {
         return id;
@@ -73,4 +75,11 @@ public class User_DTO {
         this.profile_pic = profile_pic;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
