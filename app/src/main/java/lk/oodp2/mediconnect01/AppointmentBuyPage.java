@@ -80,7 +80,7 @@ public class AppointmentBuyPage extends AppCompatActivity implements SensorEvent
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private static final int SHAKE_THRESHOLD = 200;
+    private static final int SHAKE_THRESHOLD = 400;
     private long lastUpdate;
     private float lastX, lastY, lastZ;
     Random random = new Random();

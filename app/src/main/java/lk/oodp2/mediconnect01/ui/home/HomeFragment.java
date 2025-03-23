@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment {
         Log.i("MediConnectLogggggggggggggg", "onResume");
 
         if (isNetworkAvailable()) {
-            loadHomeDocters();
+//            loadHomeDocters();
         } else {
             Toast.makeText(getContext(), "No internet connection", Toast.LENGTH_SHORT).show();
         }

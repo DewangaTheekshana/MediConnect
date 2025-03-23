@@ -79,28 +79,41 @@ public class PatientsLogin extends AppCompatActivity {
 
                             RequestBody requestBody = RequestBody.create(gson.toJson(user), MediaType.get("application/json"));
                             Request request = new Request.Builder()
-                                    .url(BuildConfig.URL+"/PatientLogin")
+                                    .url(BuildConfig.URL+"/getuser")
                                     .post(requestBody)
                                     .build();
 
                             try {
                                 Response response = okHttpClient.newCall(request).execute();
                                 String responseText = response.body().string();
-                                Log.i("MediConnectLogggggggggggggg", "Response: " + responseText);
+                                Log.i("MediConnectSpringBoot", "Response TEXT"+responseText);
 
                                 Response_DTO<User_DTO> response_dto = gson.fromJson(responseText, new TypeToken<Response_DTO<User_DTO>>(){}.getType());
+//
+                                Log.i("MediConnectSpringBoot", " Response DTO"+response_dto);
+//
+//                                Log.i("MediConnectLogggggggggggggg", " "+response_dto.getSuccess());
+//                                Log.i("MediConnectLogggggggggggggg", " "+response_dto.getMessage());
+//                                Log.i("MediConnectLogggggggggggggg", " "+response_dto.getContent());
+//
+                                if (!response_dto.getSuccess()){
 
-                                Log.i("MediConnectLogggggggggggggg", " "+response_dto);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(PatientsLogin.this, "invalid details", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
 
-                                Log.i("MediConnectLogggggggggggggg", " "+response_dto.getSuccess());
-                                Log.i("MediConnectLogggggggggggggg", " "+response_dto.getMessage());
-                                Log.i("MediConnectLogggggggggggggg", " "+response_dto.getContent());
-
-                                if (response_dto.getSuccess()){
+                                }else{
 
                                     User_DTO user_dto = response_dto.getContent();
 
+                                    Log.i("MediConnectSpringBoot", "user DTO"+user_dto);
+
                                     if (user_dto.getStatus().equals("1")){
+
+                                        Log.i("MediConnectSpringBoot", "run: ");
 
                                         SharedPreferences sharedPreferences = getSharedPreferences("lk.oodp2.mediconnect01.user", Context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -122,15 +135,6 @@ public class PatientsLogin extends AppCompatActivity {
                                         });
 
                                     }
-
-                                }else{
-
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(PatientsLogin.this, response_dto.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
 
                                 }
 
